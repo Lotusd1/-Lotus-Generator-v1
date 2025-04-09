@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotus Generator - Advanced Prompt Generator for AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .selector-group {
+            background-color: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        .selector-group-title {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        .selector {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            background-color: white;
+            color: #1e293b;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .selector:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #4338ca, #6d28d9);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-secondary {
+            background: linear-gradient(to right, #ec4899, #f43f5e);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #db2777, #e11d48);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        #prompt-result {
+            min-height: 120px;
+        }
+        optgroup {
+            font-weight: 600;
+            color: #4b5563;
+        }
+        .platform-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .platform-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .platform-option input {
+            accent-color: #7c3aed;
+        }
+        .group-selector {
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+        .group-selector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-blue-50 p-4 md:p-6 min-h-screen">
+    <div class="container mx-auto p-6 bg-white rounded-xl shadow-md max-w-6xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Lotus Generator</h1>
+        <p class="text-center text-gray-600 mb-6">Advanced Image Prompt Generator for IA</p>
+
+        <!-- Selector de Plataforma -->
+        <div class="platform-selector">
+            <div class="platform-option">
+                <input type="radio" id="midjourney" name="platform" value="midjourney" checked>
+                <label for="midjourney">Midjourney</label>
+            </div>
+            <div class="platform-option">
+                <input type="radio" id="dalle" name="platform" value="dalle">
+                <label for="dalle">DALL-E</label>
+            </div>
+            <div class="platform-option">
+                <input type="radio" id="flux" name="platform" value="flux">
+                <label for="flux">Flux</label>
+            </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- COLUMNA 1 -->
+            <div>
+                <!-- Grupo 1: Configuración Básica del Personaje -->
+                <div class="selector-group">
+                    <h2 class="selector-group-title">Main Character</h2>
+                    
+                    <div>
+                        <label for="personaje" class="block text-gray-700 text-sm font-bold mb-2">Character / Personaje*:</label>
+                        <select id="personaje" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                        
+                            
+                            <!-- Género y Edad -->
+                            <optgroup label="Gender and Age"/ Género y Edad>
+                                <option value="Female Character">Female Character / Personaje Femenino</option>   
+                                <option value="Male Character">Male Character / Personaje Masculino</option>
+                                <option value="Woman">Woman / Mujer</option>
+                                <option value="Man">Man / Hombre</option>
+                                <option value="Young man">Young man / Hombre Joven</option>
+                                <option value="Young woman">Young woman / Mujer Joven</option>
+                                <option value="Boy">Boy / Chico</option>
+                                <option value="Girl">Girl / Chica</option>
+                                <option value="Man middle-aged">Man middle-aged / Hombre Mediana Edad</option>
+                                <option value="Woman middle-aged">Woman middle-aged / Mujer Mediana Edad</option>
+                                <option value="Elderly man">Elderly man / Anciano</option>
+                                <option value="Elderly woman">Elderly woman / Anciana</option>
+                            </optgroup>
+                            
+                            <!-- Profesiones -->
+                            <optgroup label="Professions / Profesiones">
+                                <option value="Astronaut">Astronaut / Astronauta</option>
+                                <option value="Architect">Architect / Arquitecto</option>
+                                <option value="Artist">Artist / Artista</option>
+                                <option value="Athlete">Athlete / Atleta</option>
+                                <option value="Businessperson">Businessperson / Empresario</option>
+                                <option value="Carpenter">Carpenter / Carpintero</option>
+                                <option value="Chef">Chef / Chef</option>
+                                <option value="Dancer">Dancer / Bailarín</option>
+                                <option value="Doctor">Doctor / Doctor</option>
+                                <option value="Driver">Driver / Conductor</option>
+                                <option value="Electrician">Electrician / Electricista</option>
+                                <option value="Engineer">Engineer / Ingeniero</option>
+                                <option value="Farmer">Farmer / Granjero</option>
+                                <option value="Firefighter">Firefighter / Bombero</option>
+                                <option value="Journalist">Journalist / Periodista</option>
+                                <option value="Mechanic">Mechanic / Mecánico</option>
+                                <option value="Model">Model / Modelo</option>
+                                <option value="Musician">Musician / Músico</option>
+                                <option value="Nurse">Nurse / Enfermera</option>
+                                <option value="Photographer">Photographer / Fotógrafo</option>
+                                <option value="Pilot">Pilot / Piloto</option>
+                                <option value="Plumber">Plumber / Fontanero</option>
+                                <option value="Police officer">Police officer / Oficial de policía</option>
+                                <option value="Programmer">Programmer / Programador</option>
+                                <option value="Scientist">Scientist / Científico</option>
+                                <option value="Sculptor">Sculptor / Escultor</option>
+                                <option value="Singer">Singer / Cantante</option>
+                                <option value="Jazzman">Jazzman / Jazzman</option>
+                                <option value="Pianist">Pianist / Pianista</option>
+                                <option value="Soldier">Soldier / Soldado</option>
+                                <option value="Student">Student / Estudiante</option>
+                                <option value="Teacher">Teacher / Profesor</option>
+                                <option value="Writer">Writer / Escritor</option>
+                                <option value="Barman">Barman / Cantinero</option>
+                            </optgroup>
+                            
+                            <!-- Personajes Fantásticos -->
+                            <optgroup label="Fantasy Characters / Personajes Fantásticos">
+                                <option value="Alien">Alien / Extraterrestre</option>
+                                <option value="Angel">Angel / Angel</option>
+                                <option value="Ghost">Ghost / Fantasma</option>
+                                <option value="Knight">Knight / Caballero</option>
+                                <option value="Mythical creature">Mythical creature / Criatura mítica</option>
+                                <option value="Ninja">Ninja / Ninja</option>
+                                <option value="Pirate">Pirate / Pirata</option>
+                                <option value="Robot">Robot / Robot</option>
+                                <option value="Samurai">Samurai / Samurái</option>
+                                <option value="Superhero">Superhero / Superhéroe</option>
+                                <option value="Supervillain">Supervillain / Supervillano</option>
+                                <option value="Skeleton">Skeleton / Esqueleto</option>
+                                <option value="Vampire">Vampire / Vampiro</option>
+                                <option value="Witch">Witch / Bruja</option>
+                                <option value="Wizard">Wizard / Mago</option>
+                                <option value="Zombie">Zombie / Zombie</option>
+                            </optgroup>
+                            
+                            <!-- Personajes Específicos -->
+                            <optgroup label="Specific Characters / Personajes Específicos">
+                                <option value="Sexy Woman">Sexy Woman / Sexy Mujer</option>
+                                <option value="Geisha">Geisha / Geisha</option>
+                                <option value="Attractive Woman">attractive Woman / Mujer Atractiva</option>
+                                <option value="Beautiful Woman">Beautiful Woman / Hermosa Mujer</option>
+                                <option value="Nun">Nun Woman / Monja</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+
+
+   <!-- CUADRO DE TEXTO DE PERSONAJES -->
+
+    <div class="mt-4">
+        <label for="complemento-personaje" class="block text-gray-700 text-sm font-semibold mb-2">
+            Custom Character:
+        </label>
+        <textarea id="complemento-personaje" rows="2" 
+            class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-purple-300 bg-gray-50 text-gray-700 text-sm"
+            placeholder="Custom Characters or add details" (ej: 'con cicatriz en la mejilla izquierda')"></textarea>
+    </div>
+                    
+                    <div>
+                        <label for="caracteristicas-fisicas" class="block text-gray-700 text-sm font-bold mb-2">Physical Characteristics / Características Físicas:</label>
+                        <select id="caracteristicas-fisicas" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            
+                            <!-- Tipo de Cuerpo -->
+                            <optgroup label="Body Type / Tipo de Cuerpo">
+                                <option value="Athletic body">Athletic / Atlético</option>
+                                <option value="Curvy body figure">Curvy / Curvilíneo</option>
+                                <option value="Ectomorph body">Ectomorph / Ectomorfo</option>
+                                <option value="Endomorph body">Endomorph / Endomorfo</option>
+                                <option value="Fat body figure">Fat / Gordo</option>
+                                <option value="Hourglass figure">Hourglass figure / Cuerpo reloj de arena</option>
+                                <option value="Mesomorph body">Mesomorph / Mesomorfo</option>
+                                <option value="Muscular body">Muscular / Musculoso</option>
+                                <option value="Plump body">Plump / Relleno</option>                              
+                                <option value="Plus size body">Plus size / Plus size</option>
+                                <option value="Short body">Short / Bajo</option>
+                                <option value="Slim body">Slim / Delgado</option>
+                                <option value="Slim with curves">Slim With Curves / Slim with Curves</option>
+                                <option value="Stocky body">Stocky / Robusto</option>
+                                <option value="Tall body">Tall / Alto</option>
+                                <option value="Voluptuous body">Voluptuous / Voluptuoso</option>
+                            </optgroup>
+                            
+                            <!-- Forma del Cuerpo -->
+                            <optgroup label="Body Shape / Forma del Cuerpo ">
+                                <option value="Apple shape">Apple shape / Cuerpo manzana</option>
+                                <option value="Pear shape">Pear shape / Cuerpo pera</option>
+                                <option value="Rectangle shape">Rectangle shape / Cuerpo rectangular</option>
+                            </optgroup>
+                            
+                            <!-- Edad -->
+                            <optgroup label="Age / Edad">
+                                <option value="Old">Old / Viejo</option>
+                                <option value="Young">Young / Joven</option>
+                            </optgroup>
+                            
+                            <!-- Apariencia General -->
+                            <optgroup label="General Appearance / Apariencia General">
+                                <option value="Beautiful body">Beautiful Body / Hermoso Cuerpo</option>
+                                <option value="Attractive body">Attractive body / Atractivo Cuerpo</option>
+                                <option value="Sexy body">Sexy body / SexyCuerpo</option>
+                                <option value="Cute body">Cute Body / Lindo Cuerpo</option>
+                                <option value="Ugly">Ugly / Feo</option>
+                            </optgroup>
+                            
+                            <!-- Marcas y Detalles -->
+                            <optgroup label="Marks and Details / Marcas y Detalles">
+                                <option value="Freckles face">Freckles / Pecas</option>
+                                <option value="Scars face">Scars / Cicatrices</option>
+                                <option value="Tattoo Skin">Tattoos / Tatuajes</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="emocion" class="block text-gray-700 text-sm font-bold mb-2">Emotion / Emoción:</label>
+                        <select id="emocion" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            
+                            <!-- Emociones Positivas -->
+                            <optgroup label="Positive Emotions / Emociones Positivas">
+                                <option value="Amazed">Amazed / Asombrado</option>
+                                <option value="imagining">Imagining / Imaginando</option>
+                                <option value="Astonished">Astonished / Atónito</option>
+                                <option value="Calm">Calm / Calmado</option>
+                                <option value="Cheerful">Cheerful / Animado</option>
+                                <option value="Excited">Excited / Emocionado</option>
+                                <option value="Grateful">Grateful / Agradecido</option>
+                                <option value="Happy">Happy / Feliz</option>
+                                <option value="Hopeful">Hopeful / Esperanzado</option>
+                                <option value="Joyful">Joyful / Alegre</option>
+                                <option value="Kind">Kind / Amable</option>
+                                <option value="Laughing">Laughing / Riendo</option>
+                                <option value="Light smile">Light smile / Sonrisa leve</option>
+                                <option value="Loved">Loved / Amado</option>
+                                <option value="meditating">Meditating / Meditando</option>
+                                <option value="Optimistic">Optimistic / Optimista</option>
+                                <option value="Peaceful">Peaceful / Pacífico</option>
+                                <option value="Proud">Proud / Orgulloso</option>
+                                <option value="Relaxed">Relaxed / Relajado</option>
+                                <option value="Serene">Serene / Sereno</option>
+                                <option value="Sincere">Sincere / Sincero</option>
+                                <option value="Toothy smile">Toothy smile / Sonrisa con dientes</option>
+                            </optgroup>
+                            
+                            <!-- Emociones Negativas -->
+                            <optgroup label="Negative Emotions / Emociones Negativas">
+                                <option value="Angry">Angry / Enojado</option>
+                                <option value="Anxious">Anxious / Ansioso</option>
+                                <option value="Ashamed">Ashamed / Avergonzado</option>
+                                <option value="Bored">Bored / Aburrido</option>
+                                <option value="Contemptuous">Contemptuous / Despreciativo</option>
+                                <option value="Desperate">Desperate / Desesperado</option>
+                                <option value="Disappointed">Disappointed / Decepcionado</option>
+                                <option value="Disgusted">Disgusted / Disgustado</option>
+                                <option value="Dizzy">Dizzy / Mareado</option>
+                                <option value="Exhausted">Exhausted / Exhausto</option>
+                                <option value="Frustrated">Frustrated / Frustrado</option>
+                                <option value="Guilty">Guilty / Culpable</option>
+                                <option value="Hateful">Hateful / Odioso</option>
+                                <option value="Humiliated">Humiliated / Humillado</option>
+                                <option value="In pain">In pain / Dolorido</option>
+                                <option value="Insulted">Insulted / Insultado</option>
+                                <option value="Jealous">Jealous / Celoso</option>
+                                <option value="Melancholic">Melancholic / Melancólico</option>
+                                <option value="Nervous">Nervous / Nervioso</option>
+                                <option value="Offended">Offended / Ofendido</option>
+                                <option value="Pale">Pale / Pálido</option>
+                                <option value="Pessimistic">Pessimistic / Pesimista</option>
+                                <option value="Pitiful">Pitiful / Lastimoso</option>
+                                <option value="Sad">Sad / Triste</option>
+                                <option value="Scared">Scared / Asustado</option>
+                                <option value="Shocked">Shocked / Conmocionado</option>
+                                <option value="Suffering">Suffering / Sufriendo</option>
+                                <option value="Surprised">Surprised / Sorprendido</option>
+                                <option value="Worried">Worried / Preocupado</option>
+                                <option value="Wronged">Wronged / Agraviado</option>
+                            </optgroup>
+                            
+                            <!-- Estados Físicos -->
+                            <optgroup label="Physical States / Estados Físicos">
+                                <option value="Blushing">Blushing / Ruborizado</option>
+                                <option value="Drunk">Drunk / Ebrio</option>
+                                <option value="Open mouth">Open mouth / Boca abierta</option>
+                                <option value="Tipsy">Tipsy / Mareado (alcohol)</option>
+                                <option value="Tired">Tired / Cansado</option>
+
+
+
+                            </optgroup>
+                            
+                            <!-- Expresiones Faciales -->
+                            <optgroup label="Facial Expressions / Expresiones Faciales">
+                                <option value="Ahegao">Ahegao / Ahegao</option>
+                                <option value="Coquette">Coquette / Coqueto</option>
+                                <option value="concentrated">concentrated / Concentrado</option>
+                                <option value="Fiery">Fiery / Fogoso</option>
+                                <option value="Arrogant">Arrogant / Arrogante</option>
+                                <option value="Bold">Bold / Audaz</option>
+                                <option value="Confused">Confused / Confundido</option>
+                                <option value="Determined">Determined / Determinado</option>
+                                <option value="Eye rolling">Eye rolling / Girando ojos</option>
+                                <option value="Frantic">Frantic / Frenético</option>
+                                <option value="Humble">Humble / Humilde</option>
+                                <option value="Lonely">Lonely / Solitario</option>
+                                <option value="Mischievous">Mischievous / Travieso</option>
+                                <option value="Modest">Modest / Modesto</option>
+                                <option value="Moved">Moved / Conmovido</option>
+                                <option value="Mysterious">Mysterious / Misterioso</option>
+                                <option value="Neutral">Neutral / Neutral</option>
+                                <option value="Nostalgic">Nostalgic / Nostálgico</option>
+                                <option value="Reflecting">Reflecting / Reflexionando</option>
+                                <option value="Shy">Shy / Tímido</option>
+                                <option value="Smug">Smug / Presumido</option>
+                                <option value="Stunned">Stunned / Aturdido</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <!-- Nuevo selector de Rasgos Étnicos/Regionales -->
+                    <div>
+                        <label for="rasgos" class="block text-gray-700 text-sm font-bold mb-2">Regional / Ethnic Traits:</label>
+                        <select id="rasgos" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            <optgroup label="Regionales / Rasgos Étnicos">
+                                <option value="Eastern">Eastern / Asiático Oriental</option>
+                                <option value="Latin">Latin / Latinoamericano</option>
+                                <option value="American">American / Estadounidense</option>
+                                <option value="European">European / Europeo</option>
+                                <option value="African">African / Africano</option>
+                                <option value="Middle Eastern">Middle Eastern / Medio Oriente</option>
+                                <option value="South Asian">South Asian / Surasiático</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+        <!-- Selector de Grupo (ahora independiente) -->
+                <div class="selector-group">
+                    <h2 class="selector-group-title">Group / Grupo</h2>
+
+
+   <div>
+            <label for="grupo"/label>
+            <select id="grupo" class="selector">
+                <option value="">Seleccionar (Select)</option>
+                
+                <!-- Grupos Familiares -->
+                <optgroup label="Family Groups / Grupos Familiares">
+                    <option value="Family">Family / Familia</option>
+                    <option value="Couple">Couple / Pareja</option>
+                    <option value="Parents and children">Parents and children / Padres e hijos</option>
+                    <option value="Siblings">Siblings / Hermanos</option>
+                    <option value="Brothers">Brothers / Hermanos</option>
+                    <option value="Extended family">Extended family / Familia extendida</option>
+                </optgroup>
+                
+                <!-- Grupos de Amigos -->
+                <optgroup label="Friends Groups / Grupos de Amigos">
+                    <option value="Friends">Friends / Amigos</option>
+                    <option value="Best friends">Best friends / Mejores amigos</option>
+                    <option value="Childhood friends">Childhood friends / Amigos de la infancia</option>
+                    <option value="Group of friends">Group of friends / Grupo de amigos</option>
+                </optgroup>
+                
+                <!-- Grupos Musicales -->
+                <optgroup label="Music Groups / Grupos Musicales">
+                    <option value="Band">Band / Banda</option>
+                    <option value="Jazz band">Jazz band / Banda de jazz</option>
+                    <option value="Rock band">Rock band / Banda de rock</option>
+                    <option value="Orchestra">Orchestra / Orquesta</option>
+                    <option value="Choir">Choir / Coro</option>
+                    <option value="String quartet">String quartet / Cuarteto de cuerdas</option>
+                </optgroup>
+                
+                <!-- Grupos Sociales -->
+                <optgroup label="Social Groups / Grupos Sociales">
+                    <option value="Gang">Gang / Pandilla</option>
+                    <option value="Team">Team / Equipo</option>
+                    <option value="Work colleagues">Work colleagues / Colegas de trabajo</option>
+                    <option value="Classmates">Classmates / Compañeros de clase</option>
+                    <option value="Neighbors">Neighbors / Vecinos</option>
+                </optgroup>
+                
+                <!-- Grupos Deportivos -->
+                <optgroup label="Sports Groups / Grupos Deportivos">
+                    <option value="Sports team">Sports team / Equipo deportivo</option>
+                    <option value="Football team">Football team / Equipo de fútbol</option>
+                    <option value="Basketball team">Basketball team / Equipo de baloncesto</option>
+                    <option value="Athletic team">Athletic team / Equipo atlético</option>
+                </optgroup>
+                
+                <!-- Grupos Profesionales -->
+                <optgroup label="Professional Groups / Grupos Profesionales">
+                    <option value="Work team">Work team / Equipo de trabajo</option>
+                    <option value="Medical team">Medical team / Equipo médico</option>
+                    <option value="Research team">Research team / Equipo de investigación</option>
+                    <option value="Military squad">Military squad / Escuadrón militar</option>
+                </optgroup>
+            </select>
+        </div>
+
+
+   <div class="mt-4">
+        <label for="group-custom" class="block text-gray-700 text-sm font-semibold mb-2">
+            Custom Group o Second Character:
+        </label>
+        <textarea id="group-custom" rows="2" 
+            class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-purple-300 bg-gray-50 text-gray-700 text-sm"
+            placeholder="ej: With friends, with Dog"></textarea>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                <!-- Grupo 2: Apariencia -->
+                <div class="selector-group">
+                    <h2 class="selector-group-title">Custom appearance</h2>
+                    
+                    <div>
+                        <label for="estilo-piel" class="block text-gray-700 text-sm font-bold mb-2">Skin Style / Estilo de Piel:</label>
+                        <select id="estilo-piel" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            <option value="Fair skin">Fair skin / Piel clara</option>
+                            <option value="Brown skin">Brown skin / Piel morena</option>
+                            <option value="Medium skin">Medium skin / Piel media</option>
+                            <option value="Black skin">Black skin / Piel oscura</option>
+                            <option value="Olive skin">Olive skin / Piel oliva</option>
+                            <option value="Amber skin">Amber skin / Piel ámbar</option>
+                            <option value="Honey skin">Honey skin / Piel miel</option>
+                            <option value="Caramel skin">Caramel skin / Piel caramelo</option>
+                            <option value="Chocolate skin">Chocolate skin / Piel chocolate</option>
+                            <option value="Porcelain skin">Porcelain skin / Piel porcelana</option>
+                            <option value="Freckled skin">Freckled skin / Piel con lunares</option>
+                            <option value="Tattooed skin">Tattooed skin / Piel con tatuajes</option>
+                            <option value="Scarred skin">Scarred skin / Piel con cicatrices</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="estilo-cabello" class="block text-gray-700 text-sm font-bold mb-2">Hair Style / Estilo de Cabello:</label>
+                        <select id="estilo-cabello" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            <option value="Afro">Afro / Afro</option>
+                            <option value="Bald">Bald / Calvo</option>
+                            <option value="Bobcut">Bobcut / Corte Bob</option>
+                            <option value="Flowing long hair">Flowing long hair / Cabello largo fluido</option>
+                            <option value="long straight hair">long straight hair / Pelo largo liso</option>
+                            <option value="Long hair">Long hair / Pelo largo</option>
+                            <option value="Short hair">Short hair / Pelo corto</option>
+                            <option value="Curly hair">Curly hair / Pelo rizado</option>
+                            <option value="Straight hair">Straight hair / Pelo liso</option>
+                            <option value="Wavy hair">Wavy hair / Pelo ondulado</option>
+                            <option value="Braided hair">Braided hair / Trenzas</option>
+                            <option value="Dreadlocks">Dreadlocks / Dreadlocks</option>
+                            <option value="E-girl hair">E-girl hair / E-girl hair</option>
+
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="color-pelo" class="block text-gray-700 text-sm font-bold mb-2">Hair Color / Color de Pelo:</label>
+                        <select id="color-pelo" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            
+                            <!-- Colores Naturales -->
+                            <optgroup label="Natural Colors / Colores Naturales">
+                                <option value="Ash blonde">Ash blonde / Rubio cenizo</option>
+                                <option value="Auburn">Auburn / Castaño rojizo</option>
+                                <option value="Black">Black / Negro</option>
+                                <option value="Blue black">Blue black / Negro azulado</option>
+                                <option value="Chestnut">Chestnut / Castaño</option>
+                                <option value="Dark brown">Dark brown / Café oscuro</option>
+                                <option value="Dirty blonde">Dirty blonde / Rubio sucio</option>
+                                <option value="Golden blonde">Golden blonde / Rubio dorado</option>
+                                <option value="Gray">Gray / Gris</option>
+                                <option value="Honey blonde">Honey blonde / Rubio miel</option>
+                                <option value="Jet black">Jet black / Negro azabache</option>
+                                <option value="Light brown">Light brown / Café claro</option>
+                                <option value="Medium brown">Medium brown / Café medio</option>
+                                <option value="Platinum blonde">Platinum blonde / Rubio platino</option>
+                                <option value="Red">Red / Rojo</option>
+                                <option value="Salt and pepper">Salt and pepper / Sal y pimienta</option>
+                                <option value="Silver">Silver / Plateado</option>
+                                <option value="Strawberry blonde">Strawberry blonde / Rubio fresa</option>
+                                <option value="White">White / Blanco</option>
+                            </optgroup>
+                            
+                            <!-- Tintes y Colores Vibrantes -->
+                            <optgroup label="Vibrant Colors / Tintes y Colores Vibrantes">
+                                <option value="Burgundy">Burgundy / Borgoña</option>
+                                <option value="Copper">Copper / Cobrizo</option>
+                                <option value="Ginger">Ginger / Pelirrojo</option>
+                                <option value="Magenta">Magenta / Magenta</option>
+                                <option value="Red violet">Red violet / Violeta rojizo</option>
+                            </optgroup>
+                            
+                            <!-- Colores Fantasía -->
+                            <optgroup label="Fantasy Colors / Colores Fantasía">
+                                <option value="Blue">Blue / Azul</option>
+                                <option value="Dark blue">Dark blue / Azul oscuro</option>
+                                <option value="Dark green">Dark green / Verde oscuro</option>
+                                <option value="Dark purple">Dark purple / Morado oscuro</option>
+                                <option value="Green">Green / Verde</option>
+                                <option value="Lavender">Lavender / Lavanda</option>
+                                <option value="Light blue">Light blue / Azul claro</option>
+                                <option value="Light green">Light green / Verde claro</option>
+                                <option value="Purple">Purple / Morado</option>
+                                <option value="Rainbow">Rainbow / Arcoíris</option>
+                            </optgroup>
+                            
+                            <!-- Estilos de Coloración -->
+                            <optgroup label="Coloring Styles / Estilos de Coloración">
+                                <option value="Balayage">Balayage / Balayage</option>
+                                <option value="Highlights">Highlights / Reflejos</option>
+                                <option value="Ombre">Ombre / Degradé</option>
+                                <option value="Pastel">Pastel / Pastel</option>
+                                <option value="Pastel pink">Pastel pink / Rosa pastel</option>
+                                <option value="Peekaboo">Peekaboo / Peekaboo</option>
+                                <option value="Two-tone">Two-tone / Dos tonos</option>
+                            </optgroup>
+                            
+                            <!-- Colores No Naturales -->
+                            <optgroup label="Unnatural Colors / Colores No Naturales">
+                                <option value="Hot pink">Hot pink / Rosa fuerte</option>
+                                <option value="Neon">Neon / Neon</option>
+                                <option value="Pink">Pink / Rosa</option>
+                                <option value="Unnatural">Unnatural / No natural</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                     <div>
+                        <label for="color-ojos" class="block text-gray-700 text-sm font-semibold mb-2">Eyes Color / Color de Ojos:</label>
+                        <select id="color-ojos" class="selector">
+                            <option value="">Seleccionar (Select)</option>
+                            <!-- Colores Naturales -->
+                            <optgroup label="Natural Colors / Colores Naturales">
+                                <option value="Amber eyes">Amber eyes / Ojos ámbar</option>
+                                <option value="Black eyes">Black eyes / Ojos negros</option>
+                                <option value="Blue eyes">Blue eyes / Ojos azules</option>
+                                <option value="Brown eyes">Brown eyes / Ojos marrones</option>
+                                <option value="Green eyes">Green eyes / Ojos verdes</option>
+                                <option value="Honey brown eyes">Honey brown eyes / Ojos café miel</option>
+                                <option value="Honey-eyed">Honey-eyed / Ojos de miel</option>
+                                <option value="Jet black eyes">Jet black eyes / Ojos negros azabache</option>
+                                <option value="Light brown eyes">Light brown eyes / Ojos café claro</option>
+                                <option value="Light gray eyes">Light gray eyes / Ojos gris claro</option>
+                                <option value="Navy blue eyes">Navy blue eyes / Ojos azul marino</option>
+                                <option value="Steel gray eyes">Steel gray eyes / Ojos gris acero</option>
+                                <option value="White eyes">White eyes / Ojos blancos</option>
+                            </optgroup>
+                            <!-- Colores Especiales -->
+                            <optgroup label="Special Colors / Colores Especiales">
+                                <option value="Blood red eyes">Blood red eyes / Ojos rojos sangre</option>
+                                <option value="Emerald eyes">Emerald eyes / Ojos de esmeralda</option>
+                                <option value="Emerald green eyes">Emerald green eyes / Ojos verdes esmeralda</option>
+                                <option value="Ocean eyes">Ocean eyes / Ojos de océano</option>
+                                <option value="Violet eyes">Violet eyes / Ojos Violeta</option>
+                            </optgroup>
+                            <!-- Efectos y Variaciones -->
+                            <optgroup label="Effects and Variations / Efectos y Variaciones">
+                                <option value="Cat eyes">Cat eyes / Ojos de gato</option>
+                                <option value="Heterochromia eyes">Heterochromia eyes / Ojos heterocromáticos</option>
+                                <option value="Wolf eyes">Wolf eyes / Ojos de lobo</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="direction-eyes" class="block text-gray-700 text-sm font-semibold mb-2">Eyes Direction / Direccion de Ojos:</label>
+                        <select id="direction-eyes" class="selector">
+                            <option value="">Seleccionar (Select)</option>
+                                <option value="Closed eyes">Closed eyes / Ojos cerrados</option>
+                                <option value="Closed eyes angry">Closed eyes angry / Ojos cerrados enojado</option>
+                                <option value="Closed eyes happy">Closed eyes happy / Ojos cerrados feliz</option>
+                                <option value="Hidden eyes">Hidden eyes / Ojos Ocultos</option>
+                                <option value="looking down">looking down / Mirando hacia Abajo</option>
+                                <option value="looking up">looking up / Mirando hacia Arriba</option>
+                                <option value="looking to the side">looking to the side / Mirando hacia el Lado</option>
+                                <option value="looking sideways">looking sideways / Mirando de Reojos</option>
+                                <option value="avoiding gaze">avoiding gaze / Evadiendo mirada</option>
+                                <option value="wink eyes">wink eyes / guiño</option>
+                                <option value="Intense gaze">Intense gaze / Mirada intensa</option>
+               </select>
+ </div>
+ </div>
+
+
+                <!-- Grupo 3: Vestimenta -->
+                <div class="selector-group">
+                    <h2 class="selector-group-title">Clothing and Accessories</h2>
+                    <div>
+                        <label for="estilo-ropa" class="block text-gray-700 text-sm font-bold mb-2">Clothing Style / Estilo de Ropa:</label>
+                        <select id="estilo-ropa" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            
+                            <!-- Estilos Generales -->
+                            <optgroup label="General Styles / Estilos Generales">
+                                <option value="Aesthetic">Aesthetic / Estético</option>
+                                <option value="Bohemian">Bohemian / Bohemio</option>
+                                <option value="Casual">Casual / Casual</option>
+                                <option value="Designer">Designer / De Diseño</option>
+                                <option value="Elegant">Elegant / Elegante</option>
+                                <option value="Ethnic">Ethnic / Étnico</option>
+                                <option value="Formal">Formal / Formal</option>
+                                <option value="Futuristic">Futuristic / Futurista</option>
+                                <option value="Military">Military / Militar</option>
+                                <option value="Sporty">Sporty / Deportivo</option
+
+
+
+
+
+                            <option value="Traditional">Traditional / Tradicional</option>
+                        </optgroup>
+                        
+                        <!-- Estilos Urbanos -->
+                        <optgroup label="Urban Styles / Estilos Urbanos">
+                            <option value="Hip hop">Hip hop / Estilo hip hop</option>
+                            <option value="Streetwear">Streetwear / Ropa urbana</option>
+                            <option value="Skater">Skater / Estilo skater</option>
+                            <option value="Graffiti style">Graffiti style / Estilo grafitero</option>
+                            <option value="B-boy">B-boy / Estilo breakdance</option>
+                        </optgroup>
+                        
+                        <!-- Ropa Estacional -->
+                        <optgroup label="Seasonal Wear / Ropa Estacional">
+                            <option value="Summer clothes">Summer clothes / Ropa de verano</option>
+                            <option value="Winter clothes">Winter clothes / Ropa de invierno</option>
+                            <option value="Spring outfit">Spring outfit / Conjunto de primavera</option>
+                            <option value="Autumn layers">Autumn layers / Capas de otoño</option>
+                            <option value="Beachwear">Beachwear / Ropa de playa</option>
+                        </optgroup>
+                        
+                        <!-- Estilos Históricos -->
+                        <optgroup label="Historical Styles / Estilos Históricos">
+                            <option value="Baroque">Baroque / Barroco</option>
+                            <option value="Medieval">Medieval / Medieval</option>
+                            <option value="Renaissance">Renaissance / Renacimiento</option>
+                            <option value="Retro">Retro / Retro</option>
+                            <option value="Victorian">Victorian / Victoriano</option>
+                            <option value="Vintage">Vintage / Vintage</option>
+                        </optgroup>
+                        
+                        <!-- Estilos Alternativos -->
+                        <optgroup label="Alternative Styles / Estilos Alternativos">
+                            <option value="Gothic">Gothic / Gótico</option>
+                            <option value="Hippie">Hippie / Hippie</option>
+                            <option value="Punk">Punk / Punk</option>
+                            <option value="Cyberpunk">Cyberpunk / Cyberpunk</option>
+                            <option value="Kawaii">Kawaii / Estilo kawaii</option>
+                            <option value="Tattered clothing">Tattered clothing / Ropa Jirones</option>
+                            <option value="timeless, stylish look">Timeless, stylish look / Atemporal y elegante</option>
+
+
+
+                        </optgroup>
+                        
+                        <!-- Ropa Femenina -->
+                        <optgroup label="Women's Clothing / Ropa Femenina">
+                            <option value="Backless">Backless / Espalda descubierta</option>
+                            <option value="Bodysuit">Bodysuit / Body</option>
+                            <option value="Bikini">Bikini / Bikini</option>
+                            <option value="Bustier">Bustier / Bustier</option>
+                            <option value="Corset">Corset / Corsé</option>
+                            <option value="Crop top">Crop top / Top crop</option>
+                            <option value="Deep neckline">Deep neckline / Escote profundo</option>
+                            <option value="Fishnet">Fishnet / Redecilla</option>
+                            <option value="Garter belt">Garter belt / Liguero</option>
+                            <option value="Kimono">Kimono/ Kimono</option>
+                            <option value="Latex">Latex / Látex</option>
+                            <option value="Lingerie">Lingerie / Lencería</option>
+                            <option value="Micro shorts">Micro shorts / Short micro</option>
+                            <option value="Miniskirt">Miniskirt / Falda mini</option>
+                            <option value="Off-shoulder">Off-shoulder / Hombros descubiertos</option>
+                            <option value="Sexy sleepwear">Sexy sleepwear / Ropa de dormir sensual</option>
+                            <option value="Sheer">Sheer / Transparente</option>
+                            <option value="Shorts">Shorts / Pantalones Cortos</option>
+                            <option value="Stockings">Stockings / Medias</option>
+                            <option value="Thong">Thong / Tanga</option>
+                            <option value="Tight dress">Tight dress / Vestido ajustado</option>
+                        </optgroup>
+                        
+                        <!-- Ropa Unisex -->
+                        <optgroup label="Unisex Clothing / Ropa Unisex">
+                            <option value="Lace underwear">Lace underwear / Ropa interior de encaje</option>
+                            <option value="Oversized clothes">Oversized clothes / Ropa oversize</option>
+                            <option value="Sportswear">Sportswear / Ropa deportiva</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="accesorios" class="block text-gray-700 text-sm font-bold mb-2">Accessories / Accesorios :</label>
+                    <select id="accesorios" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Joyería -->
+                        <optgroup label="Jewelry / Joyería">
+                            <option value="Ankle bracelet">Ankle bracelet / Tobillera</option>
+                            <option value="Bangle">Bangle / Brazalete</option>
+                            <option value="Bracelet">Bracelet / Pulsera</option>
+                            <option value="Brooch">Brooch / Broche</option>
+                            <option value="Charm bracelet">Charm bracelet / Pulsera de dijes</option>
+                            <option value="Choker">Choker / Choker</option>
+                            <option value="Cufflinks">Cufflinks / Gemelos</option>
+                            <option value="Earrings">Earrings / Aretes</option>
+                            <option value="Locket">Locket / Medallón</option>
+                            <option value="Necklace">Necklace / Collar</option>
+                            <option value="Pendant">Pendant / Colgante</option>
+                            <option value="Ring">Ring / Anillo</option>
+                            <option value="Signet ring">Signet ring / Anillo de sello</option>
+                            <option value="Tiara">Tiara / Tiara</option>
+                        </optgroup>
+                        
+                        <!-- Relojes y Tecnología -->
+                        <optgroup label="Watches and Technology / Relojes y Tecnología">
+                            <option value="Class ring">Class ring / Anillo de graduación</option>
+                            <option value="Fitness tracker">Fitness tracker / Rastreador de actividad</option>
+                            <option value="Smartwatch">Smartwatch / Reloj inteligente</option>
+                            <option value="Watch">Watch / Reloj</option>
+                        </optgroup>
+                        
+                        <!-- Ropa y Complementos -->
+                        <optgroup label="Clothing and Accessories / Ropa y Complementos">
+                            <option value="Arm warmers">Arm warmers / Mangas térmicas</option>
+                            <option value="Ascot">Ascot / Ascot</option>
+                            <option value="Bandana">Bandana / Bandana</option>
+                            <option value="Belt">Belt / Cinturón</option>
+                            <option value="Bolo tie">Bolo tie / Corbata bolo</option>
+                            <option value="Bow tie">Bow tie / Corbata de moño</option>
+                            <option value="Cameo">Cameo / Camafeo</option>
+                            <option value="Gloves">Gloves / Guantes</option>
+                            <option value="Leg warmers">Leg warmers / Polainas</option>
+                            <option value="Mittens">Mittens / Mitones</option>
+                            <option value="Neck tie">Neck tie / Corbata</option>
+                            <option value="Pocket square">Pocket square / Pañuelo de bolsillo</option>
+                            <option value="Scarf">Scarf / Bufanda</option>
+                            <option value="Suspenders">Suspenders / Tirantes</option>
+                            <option value="Tie">Tie / Corbata</option>
+                            <option value="Wristband">Wristband / Pulsera de tela</option>
+                        </optgroup>
+                        
+                        <!-- Sombreros y Gorras -->
+                        <optgroup label="Hats and Caps / Sombreros y Gorras">
+                            <option value="Baseball cap">Baseball cap / Gorra de béisbol</option>
+                            <option value="Beach hat">Beach hat / Sombrero de playa</option>
+                            <option value="Beret">Beret / Boina</option>
+                            <option value="Cap">Cap / Gorra</option>
+                            <option value="Fedora hat">Fedora hat / Sombrero fedora</option>
+                            <option value="Hat">Hat / Sombrero</option>
+                            <option value="Porkpie hat">Porkpie hat / Sombrero porkpie</option>
+                        </optgroup>
+                        
+                        <!-- Accesorios para el Cabello -->
+                        <optgroup label="Hair Accessories / Accesorios para el Cabello">
+                            <option value="Hair band">Hair band / Diadema</option>
+                            <option value="Hair clip">Hair clip / Pinza para el pelo</option>
+                            <option value="Hair ribbon">Hair ribbon / Cinta para el pelo</option>
+                            <option value="Hairpin">Hairpin / Horquilla</option>
+                        </optgroup>
+                        
+                        <!-- Accesorios de Moda -->
+                        <optgroup label="Fashion Accessories / Accesorios de Moda">
+                            <option value="Backpack">Backpack / Mochila</option>
+                            <option value="Chain">Chain / Cadena</option>
+                            <option value="Handbag">Handbag / Bolso</option>
+                            <option value="Wallet">Wallet / Billetera</option>
+                        </optgroup>
+                        
+                        <!-- Accesorios Especiales -->
+                        <optgroup label="Special Accessories / Accesorios Especiales">
+                            <option value="Armband">Armband / Banda de brazo</option>
+                            <option value="Cane">Cane / Bastón</option>
+                            <option value="Crown">Crown / Corona</option>
+                            <option value="Eyepatch">Eyepatch / Parche para el ojo</option>
+                            <option value="Headphones">Headphones / Audífonos</option>
+                            <option value="Monocle">Monocle / Monóculo</option>
+                            <option value="Piercing">Piercing / Piercing</option>
+                            <option value="Umbrella">Umbrella / Paraguas</option>
+                            <option value="Sword">Sword / Espada</option>
+                            <option value="Katana">Katana / Katana</option>
+
+
+                        </optgroup>
+                        
+                        <!-- Accesorios Tecnológicos -->
+                        <optgroup label="Tech Accessories / Accesorios Tecnológicos">
+                            <option value="Earbuds">Earbuds / Auriculares inalámbricos</option>
+                            <option value="Glasses">Glasses / Lentes</option>
+                            <option value="Sunglasses">Sunglasses / Lentes de sol</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+   <div class="mt-4">
+        <label for="clothing-custom" class="block text-gray-700 text-sm font-semibold mb-2">
+            Custom Clothing & Accessories:
+        </label>
+        <textarea id="clothing-custom" rows="2" 
+            class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-purple-300 bg-gray-50 text-gray-700 text-sm"
+            placeholder="ej: Old Clothing and nice hat"></textarea>
+    </div>
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <!-- COLUMNA 2 -->
+        <div>
+            <!-- Grupo 4: Composición y Escena -->
+            <div class="selector-group">
+                <h2 class="selector-group-title">Composition and Scene</h2>
+
+                <div>
+                    <label for="pose" class="block text-gray-700 text-sm font-bold mb-2">Pose:</label>
+                    <select id="pose" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Poses Básicas -->
+                        <optgroup label="Basic Poses / Poses Básicas">
+                            <option value="Crouching">Crouching / Agachado</option>
+                            <option value="Kneeling">Kneeling / Arrodillado</option>
+                            <option value="Leaning against wall">Leaning against wall / Apoyado en pared</option>
+                            <option value="Lying down">Lying down / Acostado</option>
+                            <option value="Sitting">Sitting / Sentado</option>
+                            <option value="Standing">Standing / De pie</option>
+                        </optgroup>
+                        
+                        <!-- Poses de Acción -->
+                        <optgroup label="Action Poses / Poses de Acción">
+                            <option value="Clapping">Clapping / Aplaudiendo</option>
+                            <option value="Dancing">Dancing / Bailando</option>
+                            <option value="Fighting">Fighting / Peleando</option>
+                            <option value="Fighting pose">Fighting pose / Pose de pelea</option>
+                            <option value="Jumping">Jumping / Saltando</option>
+                            <option value="Looking back">Looking back / Mirando atrás</option>
+                            <option value="Pointing">Pointing / Señalando</option>
+                            <option value="Pointing upwards">Pointing upwards / Señalando arriba</option>
+                            <option value="Running">Running / Corriendo</option>
+                            <option value="Taking selfie">Taking selfie / Tomando selfie</option>
+                            <option value="Waving">Waving / Saludando</option>
+                            <option value="Yawning">Yawning / Bostezando</option>
+                        </optgroup>
+                        
+                        <!-- Poses Interactivas -->
+                        <optgroup label="Interactive Poses / Poses Interactivas">
+                            <option value="Brushing hair">Brushing hair / Peinándose</option>
+                            <option value="Cooking">Cooking / Cocinando</option>
+                            <option value="Holding flower">Holding flower / Sosteniendo flor</option>
+                            <option value="Holding object">Holding object / Sosteniendo objeto</option>
+                            <option value="Holding tea cup">Holding tea cup / Sosteniendo taza de té</option>
+                            <option value="Holding umbrella">Holding umbrella / Sosteniendo paraguas</option>
+                            <option value="holding a glass of wine">holding a glass of wine / sosteniendo una copa de vino</option>
+                            <option value="Hugging">Hugging / Abrazando</option>
+                            <option value="Kissing">Kissing / Besando</option>
+                            <option value="Reading">Reading / Leyendo</option>
+                            <option value="Writing">Writing / Escribiendo</option>
+                            <option value="Writing in notebook">Writing in notebook / Escribiendo en cuaderno</option>
+                        </optgroup>
+                        
+                        <!-- Poses Expresivas -->
+                        <optgroup label="Expressive Poses / Poses Expresivas">
+                            <option value="Arms up">Arms up / Brazos arriba</option>
+                            <option value="Bowing">Bowing / Inclinado</option>
+                            <option value="Bent over">Bent over / Inclinado</option>
+                            <option value="Hands clasped">Hands clasped / Manos juntas</option>
+                            <option value="Hands on cheeks">Hands on cheeks / Manos en mejillas</option>
+                            <option value="Hands on hips">Hands on hips / Manos en caderas</option>
+                            <option value="Meditating">Meditating / Meditando</option>
+                            <option value="On all fours">On all fours / A cuatro patas</option>
+                            <option value="Self-hugging while sitting">Self-hugging while sitting / Sentado abrazándose</option>
+                            <option value="Victory gesture">Victory gesture / Gesto de victoria</option>
+                            <option value="Contrapposto">Contrapposto / Pierna cruzadas de pie</option>
+                            <option value="Standing">Standing/ De Pie</option>
+                            <option value="Standing, head tilt">Contrapposto / De pie, cabeza posando</option>
+                            <option value="Standing, on one leg">Standing, on one leg / En un pie</option>
+                            <option value="Standing, Arched Back">Standing, Arched Back / De pie, espalda arqueada</option>
+                            <option value="Standing, Arms behind head">Standing, Arms behind head / De pie, con los brazos detrás de la cabeza</option>
+                        </optgroup>
+                        
+                        <!-- Poses en el Suelo -->
+                        <optgroup label="Ground Poses / Poses en el Suelo">
+                            <option value="Fetal position">Fetal position / Acostado en posición fetal</option>
+                            <option value="Lying on back">Lying on back / Acostado de espalda</option>
+                            <option value="Lying on side">Lying on side / Acostado de lado</option>
+                            <option value="Seiza sitting">Seiza sitting / Sentado seiza (de rodillas)</option>
+                            <option value="Sitting cross-legged">Sitting cross-legged / Sentado de piernas cruzadas</option>
+                            <option value="Sitting on floor">Sitting on floor / Sentado en el suelo</option>
+                            <option value="Sitting on side">Sitting on side/ Sentado en el suelo de lado</option>
+                            <option value="Sitting sideways">Sitting sideways / Sentado de lado</option>
+                            <option value="Squatting">Squatting / En cuclillas</option>
+                        </optgroup>
+                        
+                        <!-- Poses Específicas -->
+                        <optgroup label="Specific Poses / Poses Específicas">
+                            <option value="Bent forward">Bent forward / Inclinado hacia adelante</option>
+                            <option value="Hiding">Hiding / Escondiéndose</option>
+                            <option value="Legs spread">Legs spread / Piernas abiertas</option>
+                            <option value="Playing piano">Playing piano / Tocando piano</option>
+                            <option value="Playing saxophone">Playing saxophone / Tocando saxofón</option>
+                            <option value="Side view">Side view / De lado</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="accion" class="block text-gray-700 text-sm font-bold mb-2">Action / Acción:</label>
+                    <select id="accion" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Acciones Básicas -->
+                        <optgroup label="Body Actions / Acciones Corporales">
+                            <option value="Climbing">Climbing / Escalando</option>
+                            <option value="Driving">Driving / Conduciendo</option>
+                            <option value="Eating">Eating / Comiendo</option>
+                            <option value="Exercising">Exercising / Ejercitando</option>
+                            <option value="Flying">Flying / Volando</option>
+                            <option value="Jumping">Jumping / Saltando</option>
+                            <option value="Resting">Resting / Descansando</option>
+                            <option value="Running">Running / Corriendo</option>
+                            <option value="Sitting">Sitting / Sentado</option>
+                            <option value="Sleeping">Sleeping / Durmiendo</option>
+                            <option value="Standing">Standing / De pie</option>
+                            <option value="Swimming">Swimming / Nadando</option>
+                            <option value="Walking">Walking / Caminando</option>
+                        </optgroup>
+                        
+                        <!-- Interacciones Sociales -->
+                        <optgroup label="Social Interactions / Interacciones Sociales">
+                            <option value="Celebrating">Celebrating / Celebrando</option>
+                            <option value="Group talking">Group talking / Hablando en grupo</option>
+                            <option value="Hugging">Hugging / Abrazando</option>
+                            <option value="Kissing">Kissing / Besando</option>
+                            <option value="Listening to music">Listening to music / Escuchando música</option>
+                            <option value="On phone call">On phone call / Hablando por teléfono</option>
+                            <option value="Praying">Praying / Rezando</option>
+                            <option value="Presenting">Presenting / Presentando</option>
+                            <option value="Teaching">Teaching / Enseñando</option>
+                            <option value="Talking">Talking / Hablando</option>
+                            <option value="Texting">Texting / Enviando mensaje</option>
+                            <option value="Toasting">Toasting / Brindando</option>
+                            <option value="Video calling">Video calling / Haciendo videollamada</option>
+                            <option value="Watching movie">Watching movie / Viendo película</option>
+                            <option value="Watching TV">Watching TV / Mirando la TV</option>
+                            <option value="Whispering">Whispering / Susurrando</option>
+                        </optgroup>
+                        
+                        <!-- Actividades Creativas -->
+                        <optgroup label="Creative Activities / Actividades Creativas">
+                            <option value="Acting">Acting / Actuando</option>
+                            <option value="Designing">Designing / Diseñando</option>
+                            <option value="Drawing">Drawing / Dibujando</option>
+                            <option value="Painting">Painting / Pintando</option>
+                            <option value="Photographing">Photographing / Fotografiando</option>
+                            <option value="Playing instrument">Playing instrument / Tocando instrumento</option>
+                            <option value="Playing piano">Playing piano / Tocando piano</option>
+                            <option value="Playing saxophone">Playing saxophone / Tocando saxofón</option>
+                            <option value="Playing video games">Playing video games / Jugando videojuegos</option>
+                            <option value="Programming">Programming / Programando</option>
+                            <option value="Singing">Singing / Cantando</option>
+                            <option value="Writing">Writing / Escribiendo</option>
+                            <option value="Playing DJ">Playing DJ / DJ Mix</option>
+                        </optgroup>
+                        
+                        <!-- Actividades Cotidianas -->
+                        <optgroup label="Daily Activities / Actividades Cotidianas">
+                            <option value="Browsing internet">Browsing internet / Navegando internet</option>
+                            <option value="Cleaning">Cleaning / Limpiando</option>
+                            <option value="Cooking">Cooking / Cocinando</option>
+                            <option value="Drinking">Drinking / Bebiendo</option>
+                            <option value="Learning">Learning / Aprendiendo</option>
+                            <option value="Making call">Making call / Haciendo llamada</option>
+                            <option value="Organizing">Organizing / Organizando</option>
+                            <option value="Planning">Planning / Planeando</option>
+                            <option value="Reading">Reading / Leyendo</option>
+                            <option value="Researching">Researching / Investigando</option>
+                            <option value="Scrolling social media">Scrolling social media / Viendo redes sociales</option>
+                            <option value="Shopping">Shopping / Comprando</option>
+                            <option value="Smoking a Cigarette">Smoking / Fumando</option>
+                            <option value="Studying">Studying / Estudiando</option>
+                            <option value="Taking photo">Taking photo / Tomando foto</option>
+                            <option value="Thinking">Thinking / Pensando</option>
+                            <option value="Traveling">Traveling / Viajando</option>
+                            <option value="Typing">Typing / Tecleando</option>
+                            <option value="Using smartphone">Using smartphone / Usando smartphone</option>
+                            <option value="Working">Working / Trabajando</option>
+                            <option value="Using a hair clip">Using a hair clip / Sujetandose el cabello</option>
+                            <option value="reflecting">reflecting / Reflexionando</option>
+                        </optgroup>
+                        
+                        <!-- Acciones Especiales -->
+                        <optgroup label="Special Actions / Acciones Especiales">
+                            <option value="Building">Building / Construyendo</option>
+                            <option value="Flirting">Flirting / Coqueteando</option>
+                            <option value="Catwalk modeling">Catwalk modeling / Desfilando</option>
+                            <option value="Competing">Competing / Compitiendo</option>
+                            <option value="Exploring">Exploring / Explorando</option>
+                            <option value="Fighting">Fighting / Luchando</option>
+                            <option value="Having fun">Having fun / Divirtiéndose</option>
+                            <option value="Looking at screen">Looking at screen / Mirando pantalla</option>
+                            <option value="Modeling">Modeling / Modelando</option>
+                            <option value="Observing">Observing / Observando</option>
+                            <option value="Posing">Posing / Posando</option>
+                            <option value="Recording video">Recording video / Grabando video</option>
+                            <option value="Reflecting">Reflecting / Reflexionando</option>
+                            <option value="Repairing">Repairing / Reparando</option>
+                            <option value="Riding bicycle">Riding bicycle / Montando bicicleta</option>
+                            <option value="Riding motorcycle">Riding motorcycle / Conduciendo moto</option>
+                            <option value="Shouting">Shouting / Gritando</option>
+                            <option value="Waiting">Waiting / Esperando</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="contexto" class="block text-gray-700 text-sm font-bold mb-2">Context / Contexto:</label>
+                    <select id="contexto" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        <option value="no background">no background / Sin fondo</option>
+                        <option value="white empty background">white empty background / Fondo Blanco</option>
+
+  
+                        <!-- Lugares Comunes -->
+                        <optgroup label="Common Places / Lugares Comunes">
+                            <option value="At home">At home / En casa</option>
+                            <option value="At school">At school / En la escuela</option>
+                            <option value="At work">At work / En el trabajo</option>
+                            <option value="In the city">In the city / En la ciudad</option>
+                            <option value="In nature">In nature / En la naturaleza</option>
+                            <option value="On vacation">On vacation / De vacaciones</option>
+                        </optgroup>
+                        
+                        <!-- Lugares Específicos -->
+                        <optgroup label="Specific Locations / Lugares Específicos">
+                            <option value="At a concert">At a concert / En un concierto</option>
+                            <option value="At a party">At a party / En una fiesta</option>
+                            <option value="At the beach">At the beach / En la playa</option>
+                            <option value="In a Bar">In a Bar / En un Bar</option>
+                            <option value="In the Bedroom">In the Bedroom / En el Dormitorio</option>
+                            <option value="In the kitchen">In the kitchen / En la Cocina</option>
+                            <option value="In the Shower">In the Shower / En la ducha</option>
+                            <option value="On a trip">On a trip / En un viaje</option>
+                            <option value="house with a large window">house with a large window / Casa con gran ventanal</option>
+                            <option value="Asian inspired font">Asian inspired font / Fondo Asiatico</option>
+
+
+
+                        </optgroup>
+                        
+                        <!-- Estados Emocionales -->
+                        <optgroup label="Emotional States / Estados Emocionales">
+                            <option value="Dramatic">Dramatic / Dramática</option>
+                            <option value="Melancholic">Melancholic / Melancolica</option>
+                            <option value="Romantic">Romantic / Romántica</option>
+                        </optgroup>
+                        
+                        <!-- Géneros y Temas -->
+                        <optgroup label="Genres and Themes / Géneros y Temas">
+                            <option value="Action">Action / Acción</option>
+                            <option value="Adventure">Adventure / Aventura</option>
+                            <option value="Comical">Comical / Cómica</option>
+                            <option value="Fantasy">Fantasy / Fantasía</option>
+                            <option value="Historical">Historical / Histórica</option>
+                            <option value="Horror">Horror / Terror</option>
+                            <option value="Mystery">Mystery / Misterio</option>
+                            <option value="Science Fiction">Science Fiction / Ciencia Ficción</option>
+                        </optgroup>
+                        
+                        <!-- Situaciones Sociales -->
+                        <optgroup label="Social Situations / Situaciones Sociales">
+                            <option value="Business">Business / De Negocios</option>
+                            <option value="Celebration">Celebration / De Celebración</option>
+                            <option value="Everyday">Everyday / Cotidiana</option>
+                            <option value="Festive">Festive / Festiva</option>
+                            <option value="Protest">Protest / De Protesta</option>
+                        </optgroup>
+                        
+                        <!-- Escenarios Fantásticos -->
+                        <optgroup label="Fantasy Settings / Escenarios Fantásticos">
+                            <option value="In a dream">In a dream / En un sueño</option>
+                            <option value="In fantasy world">In fantasy world / En un mundo de fantasía</option>
+                            <option value="In magical place">In magical place / En un lugar mágico</option>
+                            <option value="In sci-fi world">In sci-fi world / En un mundo de ciencia ficción</option>
+                            <option value="In secret place">In secret place / En un lugar secreto</option>
+                            <option value="In the future">In the future / En el futuro</option>
+                            <option value="In the past">In the past / En el pasado</option>
+                            <option value="On an adventure">On an adventure / En una aventura</option>
+                        </optgroup>
+                        
+                        <!-- Lugares Públicos -->
+                        <optgroup label="Public Places / Lugares Públicos">
+                            <option value="In space">In space / En el espacio</option>
+                            <option value="Underwater">Underwater / Subacuático</option>
+                        </optgroup>
+
+                    </select>
+                </div>
+
+
+              
+
+
+
+
+                <div>
+                    <label for="tipo-escena" class="block text-gray-700 text-sm font-bold mb-2">Scene Type / Tipo de Escena:</label>
+                    <select id="tipo-escena" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Escenarios Naturales -->
+                        <optgroup label="Natural Settings / Escenarios Naturales">
+                            <option value="At the beach">At the beach / En la playa</option>
+                            <option value="Autumn scenery">Autumn scenery / Paisaje otoñal</option>
+                            <option value="Farm">Farm / Granja</option>
+                            <option value="Flower">Flower / Flor</option>
+                            <option value="Garden">Garden / Jardín</option>
+                            <option value="Hot spring">Hot spring / Aguas termales</option>
+                            <option value="In nature">In nature / En la naturaleza</option>
+                            <option value="Landscape">Landscape / Paisaje</option>
+                            <option value="Lush forest">Lush forest / Bosque frondoso</option>
+                            <option value="River">River / Río</option>
+                            <option value="Sakura blossom">Sakura blossom / Flor de cerezo</option>
+                            <option value="Snowy scenery">Snowy scenery / Escenario nevado</option>
+                            <option value="Spring meadow">Spring meadow / Pradera primaveral</option>
+                            <option value="Summer field">Summer field / Campo de verano</option>
+                            <option value="Underwater">Underwater / Subacuático</option>
+                            <option value="Winter landscape">Winter landscape / Paisaje invernal</option>
+                        </optgroup>
+                        
+                        <!-- Entornos Urbanos -->
+                        <optgroup label="Urban Environments / Entornos Urbanos">
+                            <option value="Busy road">Busy road / Carretera transitada</option>
+                            <option value="Cyberpunk cityscape">Cyberpunk cityscape / Paisaje urbano cyberpunk</option>
+                            <option value="Highway">Highway / Autopista</option>
+                            <option value="In the city">In the city / En la ciudad</option>
+                            <option value="Small town">Small town / Pueblo pequeño</option>
+                            <option value="Street alley">Street alley / Callejón</option>
+                            <option value="Urban">Urban / Urbano</option>
+                        </optgroup>
+                        
+                        <!-- Interiores -->
+                        <optgroup label="Interiors / Interiores">
+                            <option value="Apartment living room">Apartment living room / Sala de apartamento</option>
+                            <option value="Suite Room">Suite / Suit</option>
+                            <option value="Elegant living room">Elegant living room / Elegante living/option>
+                            <option value="Cottage with a large window ">Cottage / Cabaña</option>
+                            <option value="Artist studio">Artist studio / Estudio de artista</option>
+                            <option value="Classroom">Classroom / Aula</option>
+                            <option value="Coffee shop">Coffee shop / Cafetería</option>
+                            <option value="Home library">Home library / Biblioteca hogareña</option>
+                            <option value="the Bedroom">In the Bedroom / En el Dormitorio</option>
+                            <option value="the kitchen">In the kitchen / En la Cocina</option>
+                            <option value="Office">Office / Oficina</option>
+                            <option value="Vintage cafe">Vintage cafe / Café vintage</option>
+                            <option value="Bed">In Bed / En la cama</option>
+                            <option value="The Shower">In The Shower / En la Ducha</option>
+                            <option value="On The Sofa">On The Sofa / En el Sofa</option>
+
+
+                        </optgroup>
+                        
+                        <!-- Escenas Climáticas -->
+                        <optgroup label="Weather Scenes / Escenas Climáticas">
+                            <option value="Rainy street">Rainy street / Calle lluviosa</option>
+                            <option value="Snowstorm">Snowstorm / Tormenta de nieve</option>
+                            <option value="Sunny day">Sunny day / Día soleado</option>
+                            <option value="Thunderstorm">Thunderstorm / Tormenta eléctrica</option>
+                        </optgroup>
+                        
+        <!-- Escenas Cinematográficas -->
+        <optgroup label="Cinematographic Scenes / Escenas Cinematográficas">
+<option value="Drama">Drama</option>
+<option value="Comedy">Comedy / Comedia</option>
+<option value="Action">Action / Acción</option>
+<option value="Apocalyptic">Apocalyptic / Apocaliptica</option>
+<option value="Adventure">Adventure / Aventura</option>
+<option value="Horror">Horror / Terror</option>
+<option value="SciFi">Sci-Fi / Ciencia ficción</option>
+<option value="Fantasy">Fantasy / Fantasía</option>
+<option value="Thriller">Thriller / Suspenso</option>
+<option value="Mystery">Mystery / Misterio</option>
+<option value="Romance">Romance</option>
+<option value="RomCom">Rom-Com / Comedia romántica</option>
+<option value="RomDrama">Romantic Drama / Drama romántico</option>
+<option value="ActionAdventure">Action-Adventure / Acción y aventura</option>
+<option value="Dramedy">Dramedy / Comedia dramática</option>
+<option value="PsychHorror">Psychological Horror / Terror psicológico</option>
+<option value="PolThriller">Political Thriller / Thriller político</option>
+<option value="Dystopian">Dystopian Sci-Fi / Ciencia ficción distópica</option>
+<option value="EpicFantasy">Epic Fantasy / Fantasía épica</option>
+<option value="Crime">Crime / Crimen</option>
+<option value="Noir">Noir / Cine negro</option>
+<option value="Detective">Detective / Policial</option>
+<option value="Courtroom">Courtroom Drama / Judicial</option>
+<option value="Mafia">Mafia / Gangsters</option>
+<option value="Psychological">Psychological / Psicológico</option>
+<option value="Existential">Existential / Existencialista</option>
+<option value="Metafilm">Metafilm / Cine dentro del cine</option>
+<option value="War">War / Bélico</option>
+<option value="Historical">Historical / Histórica</option>
+<option value="Biopic">Biopic / Biográfico</option>
+<option value="Documentary">Documentary / Documental</option>
+<option value="Social">Social / Cine de denuncia</option>
+<option value="Musical">Musical</option>
+<option value="Animation">Animation / Animación</option>
+<option value="Experimental">Experimental</option>
+<option value="Mockumentary">Mockumentary / Falso documental</option>
+<option value="Silent">Silent Film / Cine mudo</option>
+<option value="Indie">Indie / Cine independiente</option>
+<option value="Sensual">Sensual / Sensual</option>
+
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="epoca" class="block text-gray-700 text-sm font-bold mb-2">Era / Época:</label>
+                    <select id="epoca" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Periodos Históricos -->
+                        <optgroup label="Historical Periods/ Periodos Históricos">
+                            <option value="Antiquity">Antiquity / Antigüedad</option>
+                            <option value="Baroque">Baroque / Barroco</option>
+                            <option value="Early 20th Century">Early 20th Century / Principios del Siglo XX</option>
+                            <option value="Edo Japan">Edo Japan / Edo Japan XX</option>
+                            <option value="Edwardian">Edwardian / Eduardiano</option>
+                            <option value="Middle Ages">Middle Ages / Edad Media</option>
+                            <option value="Prehistoric">Prehistoric / Prehistoria</option>
+                            <option value="Renaissance">Renaissance / Renacimiento</option>
+                            <option value="Victorian">Victorian / Victoriano</option>
+                        </optgroup>
+                        
+                        <!-- Décadas Específicas -->
+                        <optgroup label="Specific Decades / Décadas Específicas">
+                            <option value="1920s">1920s / Década de 1920</option>
+                            <option value="1930s">1930s / Década de 1930</option>
+                            <option value="1950s">1950s / Década de 1950</option>
+                            <option value="1960s">1960s / Década de 1960</option>
+                            <option value="1970s">1970s / Década de 1970</option>
+                            <option value="1980s">1980s / Década de 1980</option>
+                            <option value="1990s">1990s / Década de 1990</option>
+                        </optgroup>
+                        
+                        <!-- Estaciones del Año -->
+                        <optgroup label="Seasons / Estaciones del Año">
+                            <option value="Spring">Spring / Primavera</option>
+                            <option value="Summer">Summer / Verano</option>
+                            <option value="Autumn">Autumn / Otoño</option>
+                            <option value="Winter">Winter / Invierno</option>
+                        </optgroup>
+                        
+                        <!-- Periodos Temporales -->
+                        <optgroup label="Time Periods / Periodos Temporales">
+                            <option value="18th Century">18th Century / Siglo XVIII</option>
+                            <option value="19th Century">19th Century / Siglo XIX</option>
+                            <option value="Future">Future / Futuro</option>
+                            <option value="Present Day">Present Day / Actualidad</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                        <label for="momento-dia" class="block text-gray-700 text-sm font-semibold mb-2">Time of Day / Momento del Día:</label>
+                        <select id="momento-dia" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccionar (Select)</option>
+                            <option value="Dawn">Dawn / Amanecer</option>
+                            <option value="Morning">Morning / Mañana</option>
+                            <option value="Midday">Midday / Mediodía</option>
+                            <option value="Afternoon">Afternoon / Tarde</option>
+                            <option value="Dusk">Dusk / Atardecer</option>
+                            <option value="Night">Night / Noche</option>
+                            <option value="Afternoon Rain">Afternoon Rain / Tarde Lluviosa</option>
+                            <option value="Dusk Rain">Dusk Rain / Atardecer Lluvioso</option>
+                            <option value="Night Rain">Night Rain / Noche Lluviosa</option>
+                            <option value="Sunset">Sunset / Puesta de sol</option>
+                            <option value="Midnight">Midnight / Medianoche</option>
+                            <option value="Golden hour">Golden hour / Hora dorada</option>
+                            <option value="Blue hour">Blue hour / Hora azul</option>
+                        </select>
+                    </div>
+
+ <!-- CUADRO DE SCENE CUSTOM-->
+
+    <div class="mt-4">
+        <label for="scene-custom" class="block text-gray-700 text-sm font-semibold mb-2">
+            Custom Scene:
+        </label>
+        <textarea id="scene-custom" rows="2" 
+            class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-purple-300 bg-gray-50 text-gray-700 text-sm"
+            placeholder="ej: Romantic Drama in the forest rainy "></textarea>
+    </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+                <!-- Grupo ArtFlow -->
+                <div class="selector-group">
+                    <h2 class="selector-group-title">Artflow</h2>  
+
+
+
+
+<div>
+
+                    <label for="artflow" </label>
+                    <select id="artflow" class="selector">
+                        
+
+        
+
+
+
+<option value="">Seleccionar (Select)</option>
+
+<!-- ABURRIMIENTO Y MONOTONÍA -->
+<optgroup label="BOREDOM AND MONOTONY / ABURRIMIENTO Y MONOTONÍA">
+<option value="Calendar pages accumulating like unread epitaphs">Calendar pages accumulating like unread epitaphs / Hojas de calendario acumulándose como epitafios no leídos</option>
+<option value="Ceiling tiles in an empty waiting room">Ceiling tiles in an empty waiting room / Baldosas del techo en una sala de espera vacía</option>
+<option value="Dripping faucet composing liquid rhythms">Dripping faucet composing liquid rhythms / Grifo goteando componiendo ritmos líquidos</option>
+<option value="Elevator numbers blinking in meaningless sequence">Elevator numbers blinking in meaningless sequence / Números de ascensor parpadeando en secuencia sin sentido</option>
+<option value="Flickering bulb illuminating dust galaxies">Flickering bulb illuminating dust galaxies / Bombilla parpadeante iluminando galaxias de polvo</option>
+<option value="Neon motel sign stuttering unfinished words">Neon motel sign stuttering unfinished words / Letrero de motel de neón tartamudeando palabras inconclusas</option>
+<option value="Office printer exhaling bureaucratic snow">Office printer exhaling bureaucratic snow / Impresora de oficina exhalando nieve burocrática</option>
+<option value="Pages turning themselves in stale air">Pages turning themselves in stale air / Páginas pasándose solas en aire estancado</option>
+<option value="Train station bench absorbing infinite goodbyes">Train station bench absorbing infinite goodbyes / Banco de estación absorbiendo infinitos adioses</option>
+<option value="Train tracks stretching into graphite horizons">Train tracks stretching into graphite horizons / Vías de tren extendiéndose hacia horizontes de grafito</option>
+<option value="Wall clock digesting minutes like pills">Wall clock digesting minutes like pills / Reloj de pared digiriendo minutos como pastillas</option>
+</optgroup>
+
+<!-- ARTE Y CREACIÓN -->
+<optgroup label="ART AND CREATION / ARTE Y CREACIÓN">
+<option value="Brushstrokes fading into unfinished dreams">Brushstrokes fading into unfinished dreams / Pinceladas desvaneciéndose en sueños inconclusos</option>
+<option value="Charcoal dust settling on unfinished sketches">Charcoal dust settling on unfinished sketches / Polvo de carbón asentándose en bocetos inconclusos</option>
+<option value="Clay fingerprints on an abandoned sculpture">Clay fingerprints on an abandoned sculpture / Huellas en arcilla sobre una escultura abandonada</option>
+<option value="Dancer's shadow painting walls with ephemeral gestures">Dancer's shadow painting walls with ephemeral gestures / Sombra de bailarina pintando muros con gestos efímeros</option>
+<option value="Drying paint cracking like ancient parchment">Drying paint cracking like ancient parchment / Pintura seca agrietándose como pergamino antiguo</option>
+<option value="Embroidery thread mapping forgotten constellations">Embroidery thread mapping forgotten constellations / Hilo de bordado trazando constelaciones olvidadas</option>
+<option value="Etching needle carving moonlight on copper">Etching needle carving moonlight on copper / Aguafuerte tallando luz lunar en cobre</option>
+<option value="Glassblowing pipe exhaling molten constellations">Glassblowing pipe exhaling molten constellations / Caña de vidrio exhalando constelaciones fundidas</option>
+<option value="Ink bleeding through layers of forgotten poems">Ink bleeding through layers of forgotten poems / Tinta traspasando capas de poemas olvidados</option>
+<option value="Molten typewriter forging liquid poetry">Molten typewriter forging liquid poetry / Máquina de escribir fundida forjando poesía líquida</option>
+<option value="Mosaic tiles whispering chromatic secrets">Mosaic tiles whispering chromatic secrets / Mosaicos susurrando secretos cromáticos</option>
+<option value="Palette knives crusted with dried rainbows">Palette knives crusted with dried rainbows / Espátulas con costras de arcoíris secos</option>
+<option value="Potter's wheel spinning celestial clay">Potter's wheel spinning celestial clay / Torno de alfarero girando arcilla celeste</option>
+<option value="Quill pen dripping midnight onto parchment">Quill pen dripping midnight onto parchment / Pluma goteando medianoche sobre pergamino</option>
+<option value="Sculpture's shadow twisting on moonlit marble">Sculpture's shadow twisting on moonlit marble / Sombra de escultura retorciéndose en mármol lunar</option>
+<option value="Torn canvas fluttering in an empty studio">Torn canvas fluttering in an empty studio / Lienzo rasgado ondeando en estudio vacío</option>
+</optgroup>
+
+<!-- DRAMA Y EMOCIÓN -->
+<optgroup label="DRAMA AND EMOTION / DRAMA Y EMOCIÓN">
+<option value="Broken hourglass spilling frozen moments">Broken hourglass spilling frozen moments / Reloj de arena roto derramando momentos congelados</option>
+<option value="Cracked porcelain revealing golden seams">Cracked porcelain revealing golden seams / Porcelana agrietada revelando costuras doradas</option>
+<option value="Crystal vase holding the weight of wilted promises">Crystal vase holding the weight of wilted promises / Jarrón de cristal sosteniendo el peso de promesas marchitas</option>
+<option value="Fountain pen bleeding sonnets into blotting paper">Fountain pen bleeding sonnets into blotting paper / Pluma estilográfica sangrando sonetos en papel secante</option>
+<option value="Frozen roses suspended in time's amber">Frozen roses suspended in time's amber / Rosas congeladas en ámbar del tiempo</option>
+<option value="Gilded cage door swinging with unanswered invitations">Gilded cage door swinging with unanswered invitations / Puerta de jaula dorada balanceándose con invitaciones sin responder</option>
+<option value="Mirror shards reflecting fractured memories">Mirror shards reflecting fractured memories / Fragmentos de espejo reflejando recuerdos rotos</option>
+<option value="Pocket watch ticking inside a glass coffin">Pocket watch ticking inside a glass coffin / Reloj de bolsillo tictaqueando dentro de un ataúd de cristal</option>
+<option value="Silk gloves preserving the shape of absent hands">Silk gloves preserving the shape of absent hands / Guantes de seda conservando la forma de manos ausentes</option>
+<option value="Theatre curtain rising on abandoned dreams">Theatre curtain rising on abandoned dreams / Telón alzándose sobre sueños abandonados</option>
+<option value="Unopened letters yellowing with unspoken words">Unopened letters yellowing with unspoken words / Cartas sin abrir amarilleando con palabras no dichas</option>
+<option value="Wedding veil caught on thorns of time">Wedding veil caught on thorns of time / Velo nupcial atrapado en espinas del tiempo</option>
+</optgroup>
+
+<!-- ESCENAS ONÍRICAS -->
+<optgroup label="DREAMLIKE SCENES / DRAMA Y EMOCIÓN">
+<option value="Chalkboard equations solving celestial theorems">Chalkboard equations solving celestial theorems / Ecuaciones de pizarra resolviendo teoremas celestes</option>
+<option value="Chandelier crystals growing like ice flowers">Chandelier crystals growing like ice flowers / Cristales de araña creciendo como flores de hielo</option>
+<option value="Floating dictionaries defining impossible words">Floating dictionaries defining impossible words / Diccionarios flotantes definiendo palabras imposibles</option>
+<option value="Floating inkwells spawning liquid calligraphy">Floating inkwells spawning liquid calligraphy / Tinteros flotantes engendrando caligrafía líquida</option>
+<option value="Grand piano growing roots into concert hall floors">Grand piano growing roots into concert hall floors / Piano de cola echando raíces en el suelo de la sala de conciertos</option>
+<option value="Grandfather clock pregnant with stopped time">Grandfather clock pregnant with stopped time / Reloj de abuelo preñado de tiempo detenido</option>
+<option value="Oil paintings sweating forgotten landscapes">Oil paintings sweating forgotten landscapes / Pinturas al óleo sudando paisajes olvidados</option>
+<option value="Stained glass saints stepping down from cathedral windows">Stained glass saints stepping down from cathedral windows / Santos de vitral descendiendo de ventanas catedralicias</option>
+<option value="Stained glass windows bleeding colored light">Stained glass windows bleeding colored light / Vitrales sangrando luz coloreada</option>
+<option value="Wallpaper roses exhaling perfumed sonnets">Wallpaper roses exhaling perfumed sonnets / Rosas de papel pintado exhalando sonetos perfumados</option>
+</optgroup>
+
+<!-- FANTASÍA Y SURREALISMO -->
+<optgroup label="FANTASY AND SURREALISM / FANTASÍA Y SURREALISMO">
+<option value="Clock gears blooming into metallic flowers">Clock gears blooming into metallic flowers / Engranajes de reloj floreciendo en flores metálicas</option>
+<option value="Clockwork butterflies migrating through geometry">Clockwork butterflies migrating through geometry / Mariposas mecánicas migrando a través de la geometría</option>
+<option value="Floating staircases ascending into storm clouds">Floating staircases ascending into storm clouds / Escaleras flotantes ascendiendo a nubes de tormenta</option>
+<option value="Library books sprouting roots into earth">Library books sprouting roots into earth / Libros de biblioteca echando raíces en la tierra</option>
+<option value="Marble statues trading whispers when moonstruck">Marble statues trading whispers when moonstruck / Estatuas de mármol intercambiando susurros bajo el hechizo lunar</option>
+<option value="Moonlight pooling in marble footsteps">Moonlight pooling in marble footsteps / Luz lunar acumulándose en huellas de mármol</option>
+<option value="Ocean waves frozen in glass monuments">Ocean waves frozen in glass monuments / Olas del mar congeladas en monumentos de cristal</option>
+<option value="Paper lanterns carrying firefly constellations">Paper lanterns carrying firefly constellations / Faroles de papel transportando constelaciones de luciérnagas</option>
+<option value="Stone angels weeping liquid moonlight">Stone angels weeping liquid moonlight / Ángeles de piedra llorando luz de luna líquida</option>
+<option value="Stone chess pieces playing with shadow opponents">Stone chess pieces playing with shadow opponents / Piezas de ajedrez pétreas jugando contra oponentes sombríos</option>
+<option value="Telescopes growing roots into astral soil">Telescopes growing roots into astral soil / Telescopios echando raíces en tierra astral</option>
+</optgroup>
+
+<!-- METÁFORAS DE TRANSFORMACIÓN -->
+<optgroup label="TRANSFORMATION METAPHORS / METÁFORAS DE TRANSFORMACIÓN">
+<option value="Caterpillar silk spelling unwritten futures">Caterpillar silk spelling unwritten futures / Seda de oruga deletreando futuros no escritos</option>
+<option value="Cocoon silk spelling metamorphic alphabets">Cocoon silk spelling metamorphic alphabets / Seda de capullo deletreando alfabetos metamórficos</option>
+<option value="Dandelion seeds carrying encrypted wishes">Dandelion seeds carrying encrypted wishes / Semillas de diente de león transportando deseos encriptados</option>
+<option value="Hourglass sand writing temporary epics">Hourglass sand writing temporary epics / Arena de reloj escribiendo epopeyas temporales</option>
+<option value="Molten alphabet letters recasting ancient stories">Molten alphabet letters recasting ancient stories / Letras de alfabeto fundido refundiendo historias antiguas</option>
+<option value="Phoenix ashes alphabetizing rebirth">Phoenix ashes alphabetizing rebirth / Cenizas de fénix alfabetizando renacimientos</option>
+<option value="Quicksilver mirror rewriting reflected identities">Quicksilver mirror rewriting reflected identities / Espejo de azogue reescribiendo identidades reflejadas</option>
+<option value="Telescope focusing on inner constellations">Telescope focusing on inner constellations / Telescopio enfocando constelaciones internas</option>
+<option value="Tidepool etching transient memoirs in salt">Tidepool etching transient memoirs in salt / Charca intermareal grabando memorias transitorias en sal</option>
+</optgroup>
+
+<!-- MÚSICA Y SONIDO -->
+<optgroup label="MUSIC AND SOUND / MÚSICA Y SONIDO">
+<option value="Brass trumpet mouthpiece fossilizing silent fanfares">Brass trumpet mouthpiece fossilizing silent fanfares / Boquilla de trompeta fosilizando fanfarrias silentes</option>
+<option value="Cellist's chair still warm with absent music">Cellist's chair still warm with absent music / Silla de violonchelista aún tibia con música ausente</option>
+<option value="Church bell clapper muffled by velvet years">Church bell clapper muffled by velvet years / Badajo de campana amortiguado por años de terciopelo</option>
+<option value="Copper cymbals holding their breath">Copper cymbals holding their breath / Platillos de cobre conteniendo el aliento</option>
+<option value="Echoes crystallizing in abandoned concert halls">Echoes crystallizing in abandoned concert halls / Ecos cristalizando en salas de concierto abandonadas</option>
+<option value="Gramophone horn whispering to moonlight">Gramophone horn whispering to moonlight / Bocina de gramófono susurrando a la luz lunar</option>
+<option value="Harp strings strung with spiderweb sonatas">Harp strings strung with spiderweb sonatas / Cuerdas de arpa ensartadas con sonatas de telaraña</option>
+<option value="Metronome pendulum etching time on wooden air">Metronome pendulum etching time on wooden air / Péndulo de metrónomo grabando tiempo en aire de madera</option>
+<option value="Music box winding key turning by invisible fingers">Music box winding key turning by invisible fingers / Llave de caja de música girando por dedos invisibles</option>
+<option value="Organ pipes exhaling sacred dust">Organ pipes exhaling sacred dust / Tubos de órgano exhalando polvo sagrado</option>
+<option value="Piano keys yellowing with silent sonatas">Piano keys yellowing with silent sonatas / Teclas de piano amarilleando con sonatas silentes</option>
+<option value="Silent violin strings vibrating with potential">Silent violin strings vibrating with potential / Cuerdas de violín silentes vibrando con potencial</option>
+<option value="Warped vinyl whispering distorted melodies">Warped vinyl whispering distorted melodies / Vinilo deforme susurrando melodías distorsionadas</option>
+</optgroup>
+
+<!-- PAZ Y COTIDIANIDAD -->
+<optgroup label="PAZ Y COTIDIANIDAD / PEACE AND EVERYDAY LIFE">
+<option value="Beeswax candle documenting hours in molten scrolls">Beeswax candle documenting hours in molten scrolls / Vela de cera documentando horas en rollos fundidos</option>
+<option value="Dandelion clocks dissolving into wishes">Dandelion clocks dissolving into wishes / Relojes de diente de león disolviéndose en deseos</option>
+<option value="Dew evaporating from spiderweb strings">Dew evaporating from spiderweb strings / Rocío evaporándose de hilos de telaraña</option>
+<option value="Falling cherry blossoms marking time's passage">Falling cherry blossoms marking time's passage / Pétalos de cerezo marcando el paso del tiempo</option>
+<option value="Horizon line dissolving into watercolor mist">Horizon line dissolving into watercolor mist / Línea del horizonte disolviéndose en niebla acuarela</option>
+<option value="Lavender sachet exhaling decades of summers">Lavender sachet exhaling decades of summers / Saquito de lavanda exhalando décadas de veranos</option>
+<option value="Linen sheets billowing with ghostly breaths">Linen sheets billowing with ghostly breaths / Sábanas de lino ondeando con alientos fantasmales</option>
+<option value="Porcelain teacup cradling autumn's last sigh">Porcelain teacup cradling autumn's last sigh / Taza de porcelana acunando el último suspiro del otoño</option>
+<option value="Porch swing chains rusting with memories">Porch swing chains rusting with memories / Cadenas de columpio oxidándose con recuerdos</option>
+<option value="Quilt squares stitching together generations of twilight">Quilt squares stitching together generations of twilight / Retazos de edredón cosiendo generaciones de crepúsculo</option>
+<option value="Teacup ring stains mapping conversations">Teacup ring stains mapping conversations / Marcas de tazas mapeando conversaciones</option>
+<option value="Teapot singing its steam aria">Teapot singing its steam aria / Tetera cantando su aria de vapor</option>
+<option value="Window glass preserving fingerprints of departed light">Window glass preserving fingerprints of departed light / Cristal de ventana conservando huellas de luz partida</option>
+<option value="Windowpane frost etching ephemeral forests">Windowpane frost etching ephemeral forests / Escarcha en cristal grabando bosques efímeros</option>
+<option value="Windowbox flowers nodding to no one">Windowbox flowers nodding to no one / Flores de ventanal asintiendo a nadie</option>
+</optgroup>
+
+<!-- MELANCOLÍA MUSICAL (INTERIORES) -->
+<optgroup label="MUSICAL MELANCHOLY (INDOORS)/ MELANCOLÍA MUSICAL">
+<option value="Guitar leaning against an unmade bed with broken strings">Guitar leaning against an unmade bed with broken strings / Guitarra apoyada en una cama sin hacer con cuerdas rotas</option>
+<option value="Headphones playing the same song on repeat all night">Headphones playing the same song on repeat all night / Auriculares repitiendo la misma canción toda la noche</option>
+<option value="Music box winding down on the nightstand">Music box winding down on the nightstand / Caja de música deteniéndose en la mesilla</option>
+<option value="Old mixtape gathering dust in a half-open drawer">Old mixtape gathering dust in a half-open drawer / Mixtape viejo acumulando polvo en un cajón entreabierto</option>
+<option value="Phone screen lighting up with a deleted playlist notification">Phone screen lighting up with a deleted playlist notification / Pantalla del móvil iluminándose con notificación de lista borrada</option>
+<option value="Piano keys covered by yesterday's clothes">Piano keys covered by yesterday's clothes / Teclas de piano cubiertas por la ropa de ayer</option>
+<option value="Record player stuck on the last track of a breakup album">Record player stuck on the last track of a breakup album / Tocadiscos atascado en la última canción de un álbum de ruptura</option>
+<option value="Spotify playlist titled 'For No One' blinking on the TV">Spotify playlist titled 'For No One' blinking on the TV / Lista de Spotify llamada 'Para Nadie' parpadeando en la tele</option>
+<option value="Empty wine glass vibrating with bass from downstairs">Empty wine glass vibrating with bass from downstairs / Copa de vino vacía vibrando con el bajo del piso de abajo</option>
+<option value="Bluetooth speaker playing a shared playlist alone">Bluetooth speaker playing a shared playlist alone / Altavoz Bluetooth reproduciendo una lista compartida en soledad</option>
+<option value="Song lyrics half-erased from the fridge whiteboard">Song lyrics half-erased from the fridge whiteboard / Letra de canción medio borrada en la pizarra de la nevera</option>
+<option value="Vinyl sleeve sticking out of the 'to sell' box">Vinyl sleeve sticking out of the 'to sell' box / Cubierta de vinilo asomando en la caja 'para vender'</option>
+<option value="Last chorus echoing through empty corridors">Last chorus echoing through empty corridors / Estribillo final resonando en pasillos vacíos</option>
+<option value="Smart display showing 'Your Year in Review' with sad bangers">Smart display showing 'Your Year in Review' with sad bangers / Pantalla inteligente mostrando 'Tu Año en Música' con éxitos tristes</option>
+<option value="Alarm clock radio tuning itself to their old song">Alarm clock radio tuning itself to their old song / Radio-despertador sintonizando su antigua canción</option>
+</optgroup>
+
+<!-- VIBES LO-FI -->
+<optgroup label="LO-FI VIBES / LO-FI VIBES">
+<option value="Ambient noise of a café mixed with soft piano">Ambient noise of a café mixed with soft piano / Ruido ambiental de café con piano suave</option>
+<option value="Cat napping on a windowsill to chill beats">Cat napping on a windowsill to chill beats / Gato durmiendo en el alféizar con beats relajados</option>
+<option value="Hands flipping through dusty vinyl records">Hands flipping through dusty vinyl records / Manos hojeando discos de vinilo polvorientos</option>
+<option value="Late-night study session with a flickering desk lamp">Late-night study session with a flickering desk lamp / Sesión de estudio nocturna con lámpara parpadeante</option>
+<option value="Neon signs reflecting on wet pavement at night">Neon signs reflecting on wet pavement at night / Letreros de neón reflejados en el pavimento mojado</option>
+<option value="Old anime clips playing on a CRT TV">Old anime clips playing on a CRT TV / Escenas de anime viejo en una TV de tubo</option>
+<option value="Pixel art cityscape with a lofi radio vibe">Pixel art cityscape with a lofi radio vibe / Ciudad pixelada con vibra de radio lo-fi</option>
+<option value="Rainy window view with vinyl crackles in the background">Rainy window view with vinyl crackles in the background / Vista lluviosa desde la ventana con sonido de vinilo sonando de fondo</option>
+<option value="Steaming mug of coffee next to an open notebook">Steaming mug of coffee next to an open notebook / Taza humeante de café junto a un cuaderno abierto</option>
+<option value="Train ride at sunset with lo-fi melodies">Train ride at sunset with lo-fi melodies / Viaje en tren al atardecer con melodías lo-fi</option>
+</optgroup>
+
+<!-- VIBES HIP HOP -->
+<optgroup label="HIP HOP VIBES / HIP HOP VIBES">
+<option value="Basketball court with boombox and fresh kicks">Basketball court with boombox and fresh kicks / Cancha de baloncesto con boombox y tenis nuevos</option>
+<option value="Bodega corner with 90s hip hop posters">Bodega corner with 90s hip hop posters / Esquina de bodega con pósters de hip hop de los 90</option>
+<option value="Cypher under a streetlight with mic feedback">Cypher under a streetlight with mic feedback / Círculo de rap bajo una farola con feedback de micrófono</option>
+<option value="Dice game on a cardboard table in the hood">Dice game on a cardboard table in the hood / Juego de dados en mesa de cartón en el barrio</option>
+<option value="Freestyle battle in a foggy parking lot">Freestyle battle in a foggy parking lot / Batalla de freestyle en estacionamiento neblinoso</option>
+<option value="Gold chains and cassette tapes on a dresser">Gold chains and cassette tapes on a dresser / Cadenas de oro y cassettes sobre un tocador</option>
+<option value="Graffiti train rolling through the city at dawn">Graffiti train rolling through the city at dawn / Tren con graffiti recorriendo la ciudad al amanecer</option>
+<option value="Skateboard wheels grinding on a subway bench">Skateboard wheels grinding on a subway bench / Ruedas de patineta deslizándose en banco de metro</option>
+<option value="Vinyl collection lit by purple neon lights">Vinyl collection lit by purple neon lights / Colección de vinilos iluminada por luces neón moradas</option>
+<option value="Vinyl DJ scratching in a basement party">Vinyl DJ scratching in a basement party / DJ rayando vinilos en fiesta de sótano</option>
+</optgroup>tion value="Spotify playlist titled 'For No One' blinking on the TV">Spotify playlist titled 'For No One' blinking on the TV / Lista de Spotify llamada 'Para Nadie' parpadeando en la tele</option>
+<option value="Empty wine glass vibrating with bass from downstairs">Empty wine glass vibrating with bass from downstairs / Copa de vino vacía vibrando con el bajo del piso de abajo</option>
+<option value="Bluetooth speaker playing a shared playlist alone">Bluetooth speaker playing a shared playlist alone / Altavoz Bluetooth reproduciendo una lista compartida en soledad</option>
+</optgroup>
+
+<!-- RINCONES Y TRANSICIONES -->
+<optgroup label="BOREDOM AND MONOTONY / ABURRIMIENTO Y MONOTONÍA">
+<option value="Song lyrics half-erased from the fridge whiteboard">Song lyrics half-erased from the fridge whiteboard / Letra de canción medio borrada en la pizarra de la nevera</option>
+<option value="Vinyl sleeve sticking out of the 'to sell' box">Vinyl sleeve sticking out of the 'to sell' box / Cubierta de vinilo asomando en la caja 'para vender'</option>
+<option value="Last chorus echoing through empty corridors">Last chorus echoing through empty corridors / Estribillo final resonando en pasillos vacíos</option>
+<option value="Smart display showing 'Your Year in Review' with sad bangers">Smart display showing 'Your Year in Review' with sad bangers / Pantalla inteligente mostrando 'Tu Año en Música' con éxitos tristes</option>
+<option value="Alarm clock radio tuning itself to their old song">Alarm clock radio tuning itself to their old song / Radio-despertador sintonizando su antigua canción</option>
+</optgroup>
+
+
+                    </select>
+                </div>
+
+
+
+   <!-- CUADRO DE ArtFlow Custom-->
+
+    <div class="mt-4">
+        <label for="artflow-custom" class="block text-gray-700 text-sm font-semibold mb-2">
+            Custom ArtFlow:
+        </label>
+        <textarea id="artflow-custom" rows="2" 
+            class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-purple-300 bg-gray-50 text-gray-700 text-sm"
+            placeholder="ej: Alarm clock radio tuning itself to their old song "></textarea>
+    </div>
+ </div>
+           
+
+
+
+
+            <!-- Grupo 5: Estilo Artístico -->
+            <div class="selector-group">
+                <h2 class="selector-group-title">Artistic Style</h2>
+                
+                <div>
+                    <label for="estilo-artistico" class="block text-gray-700 text-sm font-bold mb-2">Artistic Style / Estilo Artístico:</label>
+                    <select id="estilo-artistico" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Estilos Generales -->
+                        <optgroup label="General Styles / Estilos Generales">
+                            <option value="Abstract art">Abstract art / Arte abstracto</option>
+                            <option value="Conceptual art">Conceptual art / Arte conceptual</option>
+                            <option value="Digital art">Digital art / Arte Digital</option>
+                            <option value="Digital Design">Digital Design/ Diseño Digital</option>
+                            <option value="Illustration">Illustration / Ilustración</option>
+                            <option value="Photorealism">Photorealism / Fotorrealismo</option>
+                            <option value="Realistic">Realistic / Realista</option>
+                            <option value="Sketch style">Sketch style / Estilo Bosquejo</option>
+                            <option value="Album cover">Album cover / Portada de Disco</option>
+                            <option value="book cover">Book cover / Portada de Libro</option>
+                            <option value="comic book cover">Comic Book Cover / Portada de Comic</option>
+                            <option value="Cover">Cover / Portada</option>
+
+                        </optgroup>
+                        
+                        <!-- Movimientos Artísticos -->
+                        <optgroup label="Art Movements / Movimientos Artísticos">
+                            <option value="Cubist">Cubist / Cubista</option>
+                            <option value="Expressionism">Expressionism / Expresionismo</option>
+                            <option value="Impressionism">Impressionism / Impresionismo</option>
+                            <option value="Minimalist">Minimalist / Minimalista</option>
+                            <option value="Minimalist drawing">Minimalist drawing / Dibujo Minimalista</option>
+                            <option value="Pop art">Pop art / Arte Pop</option>
+                            <option value="Surrealism">Surrealism / Surrealismo</option>
+                        </optgroup>
+                        
+                        <!-- Técnicas Tradicionales -->
+                        <optgroup label="Traditional Techniques / Técnicas Tradicionales">
+                            <option value="Hand Draw">Hand Draw / Dibujo a Mano</option>
+                            <option value="Ink & Coal">Ink & Coal / Tinta y Carbon</option>
+                            <option value="Line art">Line art / Dibujo Lineal</option>
+                            <option value="Oil painting">Oil painting / Pintura al óleo</option>
+                            <option value="Pastel">Pastel / Pastel</option>
+                            <option value="Pencil drawing">Pencil drawing / Dibujo a lápiz</option>
+                            <option value="Watercolor">Watercolor / Acuarela</option>
+                        </optgroup>
+                        
+                        <!-- Estilos de Cómic y Animación -->
+                        <optgroup label="Comic and Animation / Cómic y Animación">
+                            <option value="Cartoon">Cartoon / Caricatura</option>
+                            <option value="Comic book">Comic book style / Estilo Cómic</option>
+                            <option value="Comic">Comic style / Historieta</option>
+                            <option value="Disney">Disney Style / Estilo Disney</option>
+                            <option value="Pixar">Pixar Style / Estilo Pixar</option>
+                            <option value="Retro Cartoon">Retro Cartoon / Caricatura Retro</option>
+                            <option value="Vintage Cartoon">Vintage Cartoon / Caricatura Antigua</option>
+                            <option value="Stickman">Stickman Cartoon / Hombre de palito</option>
+
+
+                        </optgroup>
+                        
+                        <!-- Estilos de Anime y Manga -->
+                        <optgroup label="Anime and Manga / Anime y Manga">
+                            <option value="Anime">Anime style / Estilo Anime</option>
+                            <option value="Anime Afro Samurai">Anime Style Afro Samurai / Estilo anime Afro Samurai</option>
+                            <option value="Anime Chibi">Anime Style Chibi / Estilo anime chibi</option>
+                            <option value="Anime Cinematic">Anime Style Cinematic / Estilo anime cinematográfico</option>
+                            <option value="Anime Classic">Anime Style Classic / Estilo anime clásico</option>
+                            <option value="Anime Digital">Anime Style Digital / Estilo anime digital</option>
+                            <option value="Anime Dragon ball z">Anime Style Dragon ball Z / Estilo anime Dragon Ball Z</option>
+                            <option value="Anime Evangelion">Anime Style Evangelion / Estilo anime Evangelion</option>
+                            <option value="Anime Ecchi">Anime Style Ecchi / Estilo anime Ecchi</option>
+                            <option value="Anime Jojo's">Anime Style Jojo's / Estilo anime Jojo's</option>
+                            <option value="Anime Studio Ghibli">Anime Style Studio Ghibli / Estilo anime Studio Ghibli</option>
+                            <option value="Anime Josei">Anime Style Josei / Estilo anime josei</option>
+                            <option value="Anime Kodomo">Anime Style Kodomo / Estilo anime kodomo</option>
+                            <option value="Anime Kyoto Animation">Anime Style Kyoto Animation / Estilo anime Kyoto Animation</option>
+                            <option value="Anime Mecha">Anime Style Mecha / Estilo anime mecha</option>
+                            <option value="Anime Modern">Anime Style Modern / Estilo anime moderno</option>
+                            <option value="Anime Moe">Anime Style Moe / Estilo anime moe</option>
+                            <option value="Anime Samurai Champloo">Anime Style Samurai Champloo / Estilo anime Samurai Champloo</option>
+                            <option value="Anime Seinen">Anime Style Seinen / Estilo anime seinen</option>
+                            <option value="Anime Shōjo">Anime Style Shōjo / Estilo anime shōjo</option>
+                            <option value="Anime Shōnen">Anime Style Shōnen / Estilo anime shōnen</option>
+                            <option value="Anime Surrealist">Anime Style Surrealist / Estilo anime surrealista</option>
+                            <option value="Anime Trigger">Anime Style Trigger / Estilo anime Trigger</option>
+                            <option value="Anime Ufotable">Anime Style Ufotable / Estilo anime Ufotable</option>
+                            <option value="Anime Ukiyo-e Inspired">Anime Style Ukiyo-e Inspired / Estilo anime con influencia ukiyo-e</option>
+                            <option value="Anime Western-Inspired">Anime Style Western-Inspired / Estilo anime con influencia occidental</option>
+                            <option value="Japaneses Anime Flat">Anime Flat / Anime Flat</option>
+                            <option value="Kawaii">Kawaii Style / Kawaii Style</option>
+                            <option value="Anime Manga">Manga style / Estilo Manga</option>
+                            <option value="Anime Manga Seinen">Manga Seinen style / Estilo Manga Seinen</option>
+                            <option value="Anime Manga Moe">Manga Moe style / Estilo Manga Moe</option>
+                            <option value="Anime Manga Classic">Manga Classic style / Estilo Manga classic</option>
+                            <option value="Anime Manga Retro">Manga Retro style / Estilo Manga Retro</option>
+                            <option value="Japanese anime with a nostalgic lo-fi feel">Anime Lofi / Anime Lofi</option>
+
+
+                            <option value="Retro Anime">Estilo Retro Anime / Retro Anime Style</option>
+                        </optgroup>
+                        
+                        <!-- Estilos Específicos -->
+                        <optgroup label="Specific Styles / Estilos Específicos">
+                            <option value="Pixel art">Pixel art / Pixel Art</option>
+                            <option value="Stained glass style">Stained glass style / Estilo Vitral</option>
+                            <option value="Tattoo style">Tattoo style / Estilo Tatuaje</option>
+                            <option value="Vintage">Vintage / Vintage</option>
+                            <option value="Aesthetic Cartoon">Aesthetic Cartoon / Animacion estetica</option>
+                            <option value="Aesthetic Cartoon Noir">Aesthetic Cartoon Noir / Animacion estetica Noir</option>
+                            <option value="Deep Aesthetic Cartoon">Deep Aesthetic Cartoon Noir / Animacion estetica profunda</option>
+
+
+
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="estilo-colores" class="block text-gray-700 text-sm font-bold mb-2">Color Style / Estilo de Colores:</label>
+                    <select id="estilo-colores" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Esquemas de Color Básicos -->
+                        <optgroup label="Basic Color Schemes / Esquemas Básicos">
+                            <option value="Analogous colors">Analogous colors / Colores Análogos</option>
+                            <option value="Complementary colors">Complementary colors / Colores Complementarios</option>
+                            <option value="Monochromatic">Monochromatic / Monocromático</option>
+                            <option value="Triadic colors">Triadic colors / Colores Triádicos</option>
+                            <option value="Plane colors">Plane colors / Colores Planos</option>
+                        </optgroup>
+                        
+                        <!-- Estilos de Colorización -->
+                        <optgroup label="Coloring Styles / Estilos de Color">
+                            <option value="Desaturated">Desaturated / Desaturado</option>
+                            <option value="Gradient">Gradient / Degradado</option>
+                            <option value="High contrast">High contrast / Alto Contraste</option>
+                            <option value="Low contrast">Low contrast / Bajo Contraste</option>
+                            <option value="Saturated">Saturated / Saturado</option>
+                        </optgroup>
+                        
+                        <!-- Paletas Específicas -->
+                        <optgroup label="Specific Palettes / Paletas Específicas">
+
+
+                            <option value="Aesthetic Colors">Aesthetic Colors / Colores Estéticos</option>
+                            <option value="Cool colors">Cool colors / Colores Fríos</option>
+                            <option value="Earth tones">Earth tones / Tonos Tierra</option>
+                            <option value="Neon colors">Neon colors / Colores Neón</option>
+                            <option value="Pastel colors">Pastel colors / Colores Pastel</option>
+                            <option value="warm clothing tones vs cool background atmosphere">Lofi Artist colors / Colores Arte Lofi</option>
+                            <option value="Warm colors">Warm colors / Colores Cálidos</option>
+                            <option value="blue, purple and black">Blue and purple and black palette / Azul, Purpura y Negros</option>
+                            <option value="Background Grayish green and Blue-gray">Green and blue-gray background/ Fondo Verde y azul grisaceo</option>
+
+
+                        </optgroup>
+                        
+                        <!-- Efectos de Color -->
+                        <optgroup label="Color Effects / Efectos de Color">
+                            <option value="Duotone">Duotone / Duotono</option>
+                            <option value="Sepia">Sepia / Sepia</option>
+                            <option value="Solarized">Solarized / Solarizado</option>
+                            <option value="Two-tone">Two-tone / Dos Tonos</option>
+                        </optgroup>
+                        
+                        <!-- Estilos Artísticos -->
+                        <optgroup label="Artistic Styles">
+                            <option value="Cinematic color grading">Cinematic color grading / Gradación Cinematográfica</option>
+                            <option value="Pop Art">Pop Art / Pop Art</option>
+                            <option value="Color blocking">Color blocking / Bloques de Color</option>
+                            <option value="Grayscale">Grayscale / Escala de Grises</option>
+                            <option value="Noir">Noir / Estilo Noir</option>
+                            <option value="Vintage film">Vintage film / Película Vintage</option>
+                            <option value="Watercolor">Watercolor / Acuarela</option>
+                            <option value="Beautiful colour's & patterns">Beautiful colour's & patterns / Colores Hermosos segun contexto</option>
+                            <option value="Retro Futuristic">Retro Futuristic / Retro Futurista</option>
+                            <option value="Psychedelic Aesthetics">Psychedelic Aesthetics / Estetica Psicodelica</option>
+                            <option value="Psychedelic Pop Art, Vibrant Colors">Psychedelic Pop Art / Pop Art Psicodelico</option>
+
+
+
+
+                        </optgroup>
+                        
+                        <!-- Tendencias Modernas -->
+                        <optgroup label="Modern Trends / Tendencias Modernas">
+                            <option value="Cyberpunk palette">Cyberpunk palette / Paleta Cyberpunk</option>
+                            <option value="Dark mode colors">Dark mode colors / Colores Modo Oscuro</option>
+                            <option value="Synthwave">Synthwave / Estilo Synthwave</option>
+                            <option value="Vaporwave aesthetic">Vaporwave aesthetic / Estética Vaporwave</option>
+                            <option value="Vibrant Colors">Vibrant colors / Colores Vibrantes</option>
+
+
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="calidad" class="block text-gray-700 text-sm font-semibold mb-2">Quality:</label>
+                    <select id="calidad" class="selector">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Niveles de Calidad -->
+                        <optgroup label="Quality Levels">
+                            <option value="Majestic">Majestic / Majestuoso</option>
+                            <option value="Masterpiece">Masterpiece / Obra maestra</option>
+                            <option value="Ultra high quality">Ultra high quality / Ultra alta calidad</option>
+                            <option value="High quality">High quality / Alta calidad</option>
+                            <option value="Medium quality">Medium quality / Calidad media</option>
+                            <option value="Low quality">Low quality / Baja calidad</option>
+                            <option value="Very low quality">Very low quality / Muy baja calidad</option>
+                        </optgroup>
+                        
+                        <!-- Estilos de Renderizado -->
+                        <optgroup label="Rendering Styles">
+                            <option value="High detail">High detail / Altos detalles</option>
+                            <option value="Low detail">Low detail / Bajos detalles</option>
+                            <option value="Minimalist">Minimalist / Minimalista</option>
+                            <option value="Hyperdetailed">Hyperdetailed / Hiperdetallado</option>
+                            <option value="Low fidelity">Low fidelity / Baja fidelidad</option>
+                            <option value="High fidelity">High fidelity / Alta fidelidad</option>
+                        </optgroup>
+                        
+                        <!-- Términos de Calidad Adicionales -->
+                        <optgroup label="Quality Descriptors">
+                            <option value="Incredible">Incredible / Increíble</option>
+                            <option value="Professional grade">Professional grade / Grado profesional</option>
+                            <option value="Amazing">Amazing / Asombroso</option>
+                            <option value="Basic">Basic / Básico</option>
+                            <option value="Rough">Rough / Tosco</option>
+                            <option value="Unfinished">Unfinished / Sin terminar</option>
+                        </optgroup>
+                        
+                        <!-- Estilos Artísticos de Calidad -->
+                        <optgroup label="Artistic Quality Styles">
+                            <option value="Sketch quality">Sketch quality / Calidad de boceto</option>
+                            <option value="lo-fi aesthetic">Lo-Fi aesthetic / Estetica Lo-Fi</option>
+                            <option value="Concept art quality">Concept art quality / Calidad de arte conceptual</option>
+                            <option value="Production quality">Production quality / Calidad de producción</option>
+                            <option value="Draft quality">Draft quality / Calidad de borrador</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+
+<div class="mt-4">
+        <label for="style-custom" class="block text-gray-700 text-sm font-semibold mb-2">
+            Custom Style:
+        </label>
+        <textarea id="style-custom" rows="2" 
+            class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-purple-300 bg-gray-50 text-gray-700 text-sm"
+            placeholder="ej: Caricature Lofi vibes Tone"></textarea>
+    </div>
+
+
+
+
+
+
+            </div>
+ 
+
+            <!-- Grupo 6: Técnica y Efectos -->
+            <div class="selector-group">
+                <h2 class="selector-group-title">Technique & FX</h2>
+                <div>
+                    <label for="plano-imagen" class="block text-gray-700 text-sm font-bold mb-2">Image Framing / Plano de la Imagen:</label>
+                    <select id="plano-imagen" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Planos por Distancia -->
+                        <optgroup label="Shot Distance">
+                            <option value="Close-up">Close-up / Primer plano</option>
+                            <option value="Portrait">Potrait/ Retrato</option>
+                            <option value="Extreme close-up">Extreme close-up / Extremo primer plano</option>
+                            <option value="Long shot">Long shot / Plano secuencia</option>
+                            <option value="Medium shot">Medium shot / Plano medio</option>
+                            <option value="Wide shot">Wide shot / Plano general</option>
+                            <option value="Full Body view">Full Body / Cuerpo Completo</option>
+                            <option value="Lower Body view">Lower Body / Cuerpo parte baja</option>
+                            <option value="Upper Body view">Upper Body view / Cuerpo Parte alta</option>
+                        </optgroup>
+                        
+                        <!-- Planos por Ángulo -->
+                        <optgroup label="Shot Angles / Planos por Ángulo">
+                            <option value="From Above view">From Above / Desde Arriba</option>
+                            <option value="Zenith angle view">Zenith angle / Angulo Cenital</option>
+                            <option value="From Side view">From Side / De lado</option>
+                            <option value="Front view">Front view / De Frente </option>
+                            <option value="From below view">From Below/ Desde abajo </option>
+                            <option value="From behind view">From Behind/ Desde atras </option>
+                            <option value="Dynamic angle view">Dynamic angle/ Angulo Dinamico</option>
+                            <option value="Dutch angle view">Dutch angle/ Angulo Dutch</option>
+                            <option value="Bird's-eye view">Bird's-eye view / Vista aérea</option>
+                            <option value="Dutch angle">Dutch angle / Ángulo holandés</option>
+                            <option value="Eye level">Eye level / Nivel de ojos</option>
+                            <option value="High angle">High angle / Ángulo alto</option>
+                            <option value="Low angle">Low angle / Ángulo bajo</option>
+                            <option value="Overhead view">Overhead view / Vista superior</option>
+                            <option value="Worm's-eye view">Worm's-eye view / Vista de gusano</option>
+                        </optgroup>
+                        
+                        <!-- Planos Especiales -->
+                        <optgroup label="Special Shots">
+                            <option value="American">American shot / Plano americano</option>
+                            <option value="Striking Portrait">Striking Portrait/ Retrato Impactante</option>
+                            <option value="Candid">Candid shot / Plano espontáneo</option>
+                            <option value="Point-of-view shot">Point-of-view shot / Plano punto de vista</option>
+                            <option value="Silhouette">Silhouette / Silueta</option>
+                            <option value="Eye Fish">Eye Fish / Ojo de Pez</option>
+                            <option value="Taking selfie">Taking selfie / Foto Selfie</option>
+                        </optgroup>
+                        
+                        <!-- Planos de Cine -->
+                        <optgroup label="Cinematic Shots">
+                            <option value="Establishing shot">Establishing shot / Plano de establecimiento</option>
+                            <option value="Master shot">Master shot / Plano maestro</option>
+                            <option value="Tracking shot">Tracking shot / Plano de seguimiento</option>
+                        </optgroup>
+                        
+                        <!-- Encuadres Creativos -->
+                        <optgroup label="Creative Framing">
+                            <option value="Frame within a frame">Frame within a frame / Marco dentro de marco</option>
+                            <option value="Negative space">Negative space / Espacio negativo</option>
+                            <option value="Over-the-shoulder">Over-the-shoulder / Sobre el hombro</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="iluminacion" class="block text-gray-700 text-sm font-bold mb-2">Lighting:</label>
+                    <select id="iluminacion" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Técnicas de Iluminación Clásica -->
+                        <optgroup label="Classic Lighting / Técnicas Clásicas">
+                            <option value="Backlighting">Backlighting / Contraluz</option>
+                            <option value="Butterfly lighting">Butterfly lighting / Luz mariposa</option>
+                            <option value="Loop lighting">Loop lighting / Luz en bucle</option>
+                            <option value="Rembrandt lighting">Rembrandt lighting / Luz Rembrandt</option>
+                            <option value="Rim lighting">Rim lighting / Luz de borde</option>
+                            <option value="Split lighting">Split lighting / Luz dividida</option>
+                        </optgroup>
+                        
+                        <!-- Tipos de Luz -->
+                        <optgroup label="Light Types / Tipos de Luz">
+                            <option value="Ambient lighting">Ambient lighting / Luz ambiental</option>
+                            <option value="Artificial lighting">Artificial lighting / Luz artificial</option>
+                            <option value="Natural lighting">Natural lighting / Luz natural</option>
+                            <option value="Studio lighting">Studio lighting / Luz de estudio</option>
+                            <option value="Cozy indoor lighting">Cozy indoor lighting / Iluminacion Acogedora</option>
+                        </optgroup>
+                        
+                        <!-- Efectos de Luz -->
+                        <optgroup label="Light Effects / Efectos de Luz">
+                            <option value="Bokeh lights">Bokeh lights / Luces bokeh</option>
+                            <option value="Candlelight">Candlelight / Luz de velas</option>
+                            <option value="God rays">God rays / Rayos de luz</option>
+                            <option value="Neon lighting">Neon lighting / Luz neón</option>
+                            <option value="Silhouette lighting">Silhouette lighting / Luz de silueta</option>
+                        </optgroup>
+                        
+                        <!-- Estilos de Iluminación -->
+                        <optgroup label="Lighting Styles">
+                            <option value="Cinematic lighting">Cinematic lighting / Luz cinematográfica</option>
+                            <option value="Glimmer lighting">Glimmer lighting / Luz Tenue</option>
+                            <option value="Dramatic lighting">Dramatic lighting / Luz dramática</option>
+                            <option value="Deep dark light">Deep Dark light / Luz Profundidad Oscura</option>
+                            <option value="High-key lighting">High-key lighting / Luz de alto key</option>
+                            <option value="Low-key lighting">Low-key lighting / Luz de bajo key</option>
+                            <option value="Soft lighting">Soft lighting / Luz suave</option>
+                        </optgroup>
+                        
+                        <!-- Iluminación Direccional -->
+                        <optgroup label="Directional Lighting">
+                            <option value="Front lighting">Front lighting / Luz frontal</option>
+                            <option value="Side lighting">Side lighting / Luz lateral</option>
+                            <option value="Top lighting">Top lighting / Luz superior</option>
+                            <option value="Under lighting">Under lighting / Luz inferior</option>
+                        </optgroup>
+                        
+                        <!-- Temperatura de Color -->
+                        <optgroup label="Color Temperature">
+                            <option value="Cool lighting">Cool lighting / Luz fría</option>
+                            <option value="Warm lighting">Warm lighting / Luz cálida</option>
+                            <option value="Tungsten lighting">Tungsten lighting / Luz tungsteno</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="efectos" class="block text-gray-700 text-sm font-bold mb-2">FX:</label>
+                    <select id="efectos" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccionar (Select)</option>
+                        
+                        <!-- Efectos Angelicales/Suavidad -->
+                        <optgroup label="Ethereal Effects / Efectos Angelicales">
+                            <option value="Angel glow">Angel glow / Resplandor angelical</option>
+                            <option value="Dreamy soft focus">Dreamy soft focus / Enfoque suave onírico</option>
+                            <option value="Ethereal haze">Ethereal haze / Bruma etérea</option>
+                            <option value="Heavenly light">Heavenly light / Luz celestial</option>
+                            <option value="Soft glow">Soft glow / Brillo suave</option>
+                            <option value="Pearlescent sheen">Pearlescent sheen / Brillo nacarado</option>
+                            <option value="Divine radiance">Divine radiance / Resplandor divino</option>
+                            <option value="Mystical mist">Mystical mist / Niebla mística</option>
+                        </optgroup>
+
+                        <!-- Efectos de Luz -->
+                        <optgroup label="Lighting Effects / Efectos Lumínicos">
+                            <option value="Bloom">Bloom / Resplandor</option>
+                            <option value="Glow">Glow / Brillo</option>
+                            <option value="Lens flare">Lens flare / Destello de lente</option>
+                            <option value="Light rays">Light rays / Rayos de luz</option>
+                            <option value="Neon glow">Neon glow / Resplandor neón</option>
+                            <option value="Volumetric lighting">Volumetric lighting / Iluminación volumétrica</option>
+                        </optgroup>
+                        
+                        <!-- Efectos de Distorsión -->
+                        <optgroup label="Distortion Effects / Distorsiones">
+                            <option value="Chromatic aberration">Chromatic aberration / Aberración cromática</option>
+                            <option value="Fisheye lens">Fisheye lens / Ojo de pez</option>
+                            <option value="Glitch effect">Glitch effect / Efecto glitch</option>
+                            <option value="Pixelation">Pixelation / Pixelado</option>
+                            <option value="Ripple distortion">Ripple distortion / Distorsión de onda</option>
+                        </optgroup>
+                        
+                        <!-- Efectos Artísticos -->
+                        <optgroup label="Artistic Effects / Estilos Artísticos">
+                            <option value="Charcoal sketch">Charcoal sketch / Boceto a carboncillo</option>
+                            <option value="Comic book effect">Comic book effect / Estilo cómic</option>
+                            <option value="Oil painting">Oil painting / Pintura al óleo</option>
+                            <option value="Watercolor">Watercolor / Acuarela</option>
+                            <option value="Pencil sketch">Pencil sketch / Boceto a lápiz</option>
+                            <option value="Hand Draw">Hand Draw / Hand Draw</option>
+                            <option value="Graffiti Art">Graffiti Art / Arte Grafitero</option>
+                            <option value="sharp edges">Sharp edges Art / Bordes Afilados</option>
+
+                        </optgroup>
+                        
+                        <!-- Efectos Atmosféricos -->
+                        <optgroup label="Atmospheric Effects / Atmósferas">
+                            <option value="Fog overlay">Fog overlay / Niebla</option>
+                            <option value="Rain overlay">Rain overlay / Lluvia</option>
+                            <option value="Snow overlay">Snow overlay / Nieve</option>
+                            <option value="Smoke overlay">Smoke overlay / Humo</option>
+                        </optgroup>
+                        
+                        <!-- Efectos Especiales -->
+                        <optgroup label="Special Effects / Efectos Especiales">
+                            <option value="Double exposure">Double exposure / Doble exposición</option>
+                            <option value="Hologram effect">Hologram effect / Efecto holograma</option>
+                            <option value="Motion blur">Motion blur / Desenfoque de movimiento</option>
+                            <option value="Time warp">Time warp / Distorsión temporal</option>
+                        </optgroup>
+                        
+                        <!-- Efectos de Textura -->
+                        <optgroup label="Texture Effects / Texturas">
+                            <option value="Film grain">Film grain / Grano de película</option>
+                            <option value="Paper texture">Paper texture / Textura de papel</option>
+                            <option value="Scratches overlay">Scratches overlay / Arañazos</option>
+                            <option value="Vintage photo effect">Vintage photo effect / Efecto foto antigua</option>
+                            <option value="Distressed texture">Distressed texture / Textura envejecida</option>
+
+
+                        </optgroup>
+                        
+                        <!-- Efectos Digitales -->
+                        <optgroup label="Digital Effects / Efectos Digitales">
+                            <option value="8-bit pixel art">8-bit pixel art / Arte 8-bit</option>
+                            <option value="Data moshing">Data moshing / Corrupción digital</option>
+                            <option value="Low poly effect">Low poly effect / Efecto low poly</option>
+                            <option value="Vector art">Vector art / Arte vectorial</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+        <button id="generar-prompt" class="btn-primary">
+            Generar Prompt
+        </button>
+        <button id="copiar-prompt" class="btn-secondary">
+            Copiar Prompt
+        </button>
+    </div>
+
+    <!-- Resultado -->
+    <div class="mt-8">
+        <label for="prompt-result" class="block text-gray-700 text-sm font-semibold mb-2">Prompt Resultante:</label>
+        <textarea id="prompt-result" rows="6" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 bg-gray-50 text-gray-700 font-mono text-sm" readonly placeholder="El prompt generado aparecerá aquí..."></textarea>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Selección de elementos
+        const estiloArtisticoSelect = document.getElementById('estilo-artistico');
+        const stylecustomSelect = document.getElementById('style-custom');
+        const grupoSelect = document.getElementById('grupo');
+        const groupcustomSelect = document.getElementById('group-custom');
+        const personajeSelect = document.getElementById('personaje');
+        const complementopersonajeSelect = document.getElementById('complemento-personaje');
+        const caracteristicasFisicasSelect = document.getElementById('caracteristicas-fisicas');
+        const estiloPielSelect = document.getElementById('estilo-piel');
+        const estiloCabelloSelect = document.getElementById('estilo-cabello');
+        const colorPeloSelect = document.getElementById('color-pelo');
+        const colorOjosSelect = document.getElementById('color-ojos');
+        const directioneyesSelect = document.getElementById('direction-eyes');
+        const emocionSelect = document.getElementById('emocion');
+        const poseSelect = document.getElementById('pose');
+        const rasgosSelect = document.getElementById('rasgos');
+        const accionSelect = document.getElementById('accion');
+        const estiloRopaSelect = document.getElementById('estilo-ropa');
+        const accesoriosSelect = document.getElementById('accesorios');
+        const clothingcustomSelect = document.getElementById('clothing-custom');
+        const contextoSelect = document.getElementById('contexto');
+        const artflowSelect = document.getElementById('artflow');
+        const artflowcustomSelect = document.getElementById('artflow-custom');
+        const epocaSelect = document.getElementById('epoca');
+        const momentoDiaSelect = document.getElementById('momento-dia');
+        const scenecustomSelect = document.getElementById('scene-custom');
+        const tipoEscenaSelect = document.getElementById('tipo-escena');
+        const planoImagenSelect = document.getElementById('plano-imagen');
+        const iluminacionSelect = document.getElementById('iluminacion');
+        const estiloColoresSelect = document.getElementById('estilo-colores');
+        const efectosSelect = document.getElementById('efectos');
+        const calidadSelect = document.getElementById('calidad');
+        const generarPromptButton = document.getElementById('generar-prompt');
+        const copiarPromptButton = document.getElementById('copiar-prompt');
+        const promptResultTextarea = document.getElementById('prompt-result');
+
+        // Función generadora de prompt optimizada para IA
+        function generarPrompt(e) {
+            e.preventDefault();
+            
+            // Obtener valores
+            const estiloArtistico = estiloArtisticoSelect.value;
+            const stylecustom = stylecustomSelect.value;
+            const grupo = grupoSelect.value;
+            const groupcustom = groupcustomSelect.value;
+            const personaje = personajeSelect.value;
+    const complementopersonaje = complementopersonajeSelect.value;
+            const caracteristicasFisicas = caracteristicasFisicasSelect.value;
+            const estiloPiel = estiloPielSelect.value;
+            const estiloCabello = estiloCabelloSelect.value;
+            const colorPelo = colorPeloSelect.value;
+            const colorOjos = colorOjosSelect.value;
+            const directioneyes = directioneyesSelect.value;
+            const emocion = emocionSelect.value;
+            const rasgos = rasgosSelect.value;
+            const pose = poseSelect.value;
+            const accion = accionSelect.value;
+            const estiloRopa = estiloRopaSelect.value;
+            const accesorios = accesoriosSelect.value;
+            const clothingcustom = clothingcustomSelect.value;
+            const contexto = contextoSelect.value;
+            const artflow = artflowSelect.value;
+    const artflowcustom = artflowcustomSelect.value;
+            const epoca = epocaSelect.value;
+            const momentoDia = momentoDiaSelect.value;
+            const scenecustom = scenecustomSelect.value;
+            const tipoEscena = tipoEscenaSelect.value;
+            const planoImagen = planoImagenSelect.value;
+            const iluminacion = iluminacionSelect.value;
+            const estiloColores = estiloColoresSelect.value;
+            const efectos = efectosSelect.value;
+            const calidad = calidadSelect.value;
+            const platform = document.querySelector('input[name="platform"]:checked').value;
+
+            // Estructura optimizada para IA
+            let promptParts = [];
+            
+            // 1. Calidad y estilo artístico (lo primero que deben ver los modelos)
+            if (estiloArtistico) promptParts.push(estiloArtistico + " style");
+            if (calidad) promptParts.push(calidad);
+                if (stylecustom) promptParts.push(stylecustom);
+            
+            // 2. Sujeto principal con detalles (enfoque principal)
+            if (personaje) {
+                let subjectDescription = personaje;
+                
+                if (grupo) subjectDescription += `, ${grupo}`;
+                if (groupcustom) subjectDescription += `, ${groupcustom}`;
+                if (caracteristicasFisicas) subjectDescription += `, ${caracteristicasFisicas}`;
+                if (complementopersonaje) subjectDescription += `, ${complementopersonaje}`;
+                if (estiloPiel) subjectDescription += `, ${estiloPiel}`;
+                if (estiloCabello && colorPelo) subjectDescription += `, ${estiloCabello} ${colorPelo}`;
+                else if (estiloCabello) subjectDescription += `, ${estiloCabello} hair`;
+                else if (colorPelo) subjectDescription += `, ${colorPelo}`;
+                if (directioneyes) subjectDescription += `, ${directioneyes}`;
+                if (colorOjos) subjectDescription += `, ${colorOjos}`;
+                if (emocion) subjectDescription += `, ${emocion} expression`;
+                if (rasgos) subjectDescription += `, ${rasgos}`;
+
+                promptParts.push(subjectDescription);
+            }
+            
+            // 4. Vestimenta y accesorios (si no es un grupo)
+
+                let clothingParts = [];
+                if (estiloRopa) clothingParts.push(`wearing ${estiloRopa}`);
+                if (accesorios) clothingParts.push(accesorios);
+                if (clothingcustom) clothingParts.push(clothingcustom);
+                if (clothingParts.length > 0) {
+                    promptParts.push(clothingParts.join(', '));
+
+            }
+            
+            // 5. Acción y pose
+            let actionParts = [];
+            if (pose) actionParts.push(`${pose} pose`);
+            if (accion) actionParts.push(accion);
+            if (actionParts.length > 0) {
+                promptParts.push(actionParts.join(', '));
+            }
+            
+            // 6. Escenario y contexto
+            let sceneParts = [];
+            if (contexto) sceneParts.push(contexto);
+            if (artflow) sceneParts.push(artflow);
+            if (artflowcustom) sceneParts.push(artflowcustom);
+            if (tipoEscena) sceneParts.push(`in ${tipoEscena}`);
+            if (epoca) sceneParts.push(`${epoca} era`);
+            if (momentoDia) sceneParts.push(momentoDia);
+            if (scenecustom) sceneParts.push(scenecustom);
+            if (sceneParts.length > 0) {
+                promptParts.push(sceneParts.join(', '));
+            }
+            
+            // 7. Composición técnica (importante para calidad)
+            let techParts = [];
+            if (planoImagen) techParts.push(`${planoImagen} shot`);
+            if (iluminacion) techParts.push(`${iluminacion} `);
+            if (estiloColores) techParts.push(`${estiloColores} color palette`);
+            if (efectos) techParts.push(`${efectos}`);
+            if (techParts.length > 0) {
+                promptParts.push(techParts.join(', '));
+            }
+            
+            // 8. Palabras clave finales para refinar
+            const finalKeywords = ["Lost in thought gaze", "Looking away from the camera", "Candid photography", "Authentic capture", "flawless anatomy","correct anatomy","no extra limbs","Fine-tune the final details" ];
+            promptParts.push(finalKeywords.join(', '));
+
+          
+            
+            // Formateo especial para diferentes plataformas
+            let finalPrompt = promptParts.join(', ');
+            
+            switch(platform) {
+                case "midjourney":
+                    finalPrompt += " --v 5 --ar 16:9 --q 2 --style 4b";
+                    break;
+                case "dalle":
+                    finalPrompt = "A highly detailed digital artwork of " + finalPrompt + ", digital painting, trending on artstation";
+                    break;
+                case "flux":
+                    finalPrompt += " ::4K::trending on artstation:";
+                    break;
+            }
+            
+            promptResultTextarea.value = finalPrompt;
+        }
+
+        // Función para copiar el prompt
+        function copiarPrompt(e) {
+            e.preventDefault();
+            
+            if (!promptResultTextarea.value) {
+                alert("Primero genera un prompt antes de copiar");
+                return;
+            }
+            
+            promptResultTextarea.select();
+            promptResultTextarea.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(promptResultTextarea.value)
+                .then(() => {
+                    // Feedback visual mejorado
+                    const originalText = copiarPromptButton.textContent;
+                    copiarPromptButton.textContent = "¡Copiado!";
+                    copiarPromptButton.classList.remove('btn-secondary');
+                    copiarPromptButton.classList.add('bg-green-500', 'hover:bg-green-600');
+                    
+                    setTimeout(() => {
+                        copiarPromptButton.textContent = originalText;
+                        copiarPromptButton.classList.remove('bg-green-500', 'hover:bg-green-600');
+                        copiarPromptButton.classList.add('btn-secondary');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Error al copiar: ', err);
+                    alert("Error al copiar el prompt");
+                });
+        }
+
+        // Event listeners
+        generarPromptButton.addEventListener('click', generarPrompt);
+        copiarPromptButton.addEventListener('click', copiarPrompt);
+    });
+</script>
